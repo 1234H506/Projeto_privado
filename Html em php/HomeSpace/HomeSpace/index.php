@@ -5,8 +5,10 @@ session_start();
 
 
 include("assets/class/exibir_agentes.php");
-include("conexao.php");
+require_once("conexao.php");
 require_once("assets/class/comentario.php");
+
+/** @var mysqli $conn */
 
 // comentários
 $comentarios = new Comentarios(null, null, null);
