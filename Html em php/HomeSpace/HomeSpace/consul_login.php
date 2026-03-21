@@ -1,18 +1,7 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homespace";
-
-// cria a conexão com o BD
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check conexão
-if ($conn->connect_error) {
-    die("Falha ao tentar conectar: " . $conn->connect_error);
-}  
+include 'conexao.php';  
 
 $email = $_POST['Email_Usuario'];
 $senha = $_POST['Senha_Usuario'];
@@ -58,14 +47,14 @@ if ($result->num_rows > 0) {
     } else {
         echo "<script>
             alert('Senha incorreta!');
-            window.location.href='LOGIN.php';
+            window.location.href='index.php';
         </script>";
         exit();
     }
 } else {
     echo "<script>
         alert('Email não encontrado!');
-        window.location.href='LOGIN.php';
+        window.location.href='index.php';
     </script>";
     exit();
 }
