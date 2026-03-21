@@ -165,3 +165,36 @@ function enviarFiltragem() {
 
 // ==================== INICIALIZA NA PRIMEIRA CARGA ====================
 rebindFilters();
+
+// ==================== AJAX PARA REDEFINIR SENHA ====================
+
+const btnRedefinir = document.getElementById("btn_redefinir");
+
+if (btnRedefinir) {
+    btnRedefinir.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Imput email
+        const email = document.getElementById('email').value;
+        
+
+        // Criamos um objeto para passar os valores em de um vez
+        const formData = new FormData();
+        formData.append('email', email);
+        
+
+
+        // para qual arquiva será enviados os dados
+        fetch('verificar_email.php', {
+            method: 'POST',
+            body: formData
+
+        })
+
+            .then(response => response.text())
+            .then(dados => {
+                document.getElementById('resultado').innerHTML = dados;
+            });
+
+    });
+}
