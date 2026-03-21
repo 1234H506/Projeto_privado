@@ -74,6 +74,8 @@ session_start();
       </a>
     </div>
   </header>
+
+  <div id="resultado">
   <section class=" bg-image full-screen-section " style="background-image: url('assets/img/blog/blog-hero-9.webp');">
     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
       <div class="container h-100">
@@ -119,10 +121,10 @@ session_start();
                     <div class="mb-3">
                       <label for="email" class="form-label small fw-bold">Seu E-mail</label>
                       <input type="email" name="email" class="form-control shadow-none border-secondary-subtle"
-                        id="email" placeholder="exemplo@email.com" autocomplete="off" required>
+                        id="email" placeholder="exemplo@email.com" autocomplete="email" required>
                     </div>
 
-                    <button type="submit" class="btn w-100 fw-bold text-white py-2 mb-3"
+                    <button id="btn_redefinir"  class="btn w-100 fw-bold text-white py-2 mb-3"
                       style="background-color: #2eca6a; border-color: #2eca6a;">
                       Confirmar e-mail
                     </button>
@@ -141,6 +143,7 @@ session_start();
         </div>
       </div>
   </section>
+  </div>
   <script src="assets/js/olhinho.js"></script>
 </body>
 
