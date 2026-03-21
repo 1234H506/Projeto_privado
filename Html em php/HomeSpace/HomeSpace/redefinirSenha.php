@@ -55,12 +55,19 @@ session_start();
           <g id="tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="iconCarrier">
             <path d="M22 22L2 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-            <path d="M2 11L6.06296 7.74968M22 11L13.8741 4.49931C12.7784 3.62279 11.2216 3.62279 10.1259 4.49931L9.34398 5.12486" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-            <path d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            <path
+              d="M2 11L6.06296 7.74968M22 11L13.8741 4.49931C12.7784 3.62279 11.2216 3.62279 10.1259 4.49931L9.34398 5.12486"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
             <path d="M4 22V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
             <path d="M20 9.5V13.5M20 22V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-            <path d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393M9 22V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z" stroke="currentColor" stroke-width="1.5"></path>
+            <path
+              d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393M9 22V17"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path
+              d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z"
+              stroke="currentColor" stroke-width="1.5"></path>
           </g>
         </svg>
         <h1 class="sitename">HomeSpace</h1>
@@ -81,66 +88,58 @@ session_start();
                     <g id="bgCarrier" stroke-width="0"></g>
                     <g id="tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="iconCarrier">
-                      <path d="M22 22L2 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                      <path d="M22 22L2 22" stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round"></path>
                       <path
                         d="M2 11L6.06296 7.74968M22 11L13.8741 4.49931C12.7784 3.62279 11.2216 3.62279 10.1259 4.49931L9.34398 5.12486"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                        stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round"></path>
                       <path d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                      <path d="M4 22V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                      <path d="M20 9.5V13.5M20 22V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round"></path>
+                      <path d="M4 22V9.5" stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round"></path>
+                      <path d="M20 9.5V13.5M20 22V17.5" stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round">
                       </path>
                       <path
                         d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393M9 22V17"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        stroke="#2eca6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                       <path
                         d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z"
-                        stroke="currentColor" stroke-width="1.5"></path>
+                        stroke="#2eca6a" stroke-width="1.5"></path>
                     </g>
                   </svg>
-                  <h1 class="sitename">HomeSpace</h1>
+                  <h1 class="sitename m-0" style="color: #2eca6a; font-weight: 700;">HomeSpace</h1>
                 </div>
 
-                <h2 class="text-center mt-5 mb-5">Conecte-se</h2>
+                <div class="text-center px-3">
+                  <h2 class="h4 fw-bold mb-2">Redefinir senha</h2>
+                  <p class="text-muted small mb-4">
+                    Não se preocupe, acontece com os melhores! <br>
+                    Digite o e-mail cadastrado e enviaremos um link seguro para você redefinir sua senha.
+                  </p>
 
+                  <form action="forms/verificar_email.php" method="POST" class="text-start mx-auto" style="max-width: 350px;">
+                    <div class="mb-3">
+                      <label for="email" class="form-label small fw-bold">Seu E-mail</label>
+                      <input type="email" name="email" class="form-control shadow-none border-secondary-subtle"
+                        id="email" placeholder="exemplo@email.com" autocomplete="off" required>
+                    </div>
 
-                <form action = "consul_login.php" method="POST">
-                  <div data-mdb-input-init class="form-outline mb-2">
-                    <label class="form-label m-2" for="form3Example1cg">Email</label>
-                    <input type="text" id="form3Example1cg" class="form-control form-control-lg" name ="Email_Usuario" required/>
-                    
-                  </div>
+                    <button type="submit" class="btn w-100 fw-bold text-white py-2 mb-3"
+                      style="background-color: #2eca6a; border-color: #2eca6a;">
+                      Confirmar e-mail
+                    </button>
 
-                  <div data-mdb-input-init class="form-outline mb-2  ">
-                  <label class="form-label m-2" for="form3Example3cg">Senha</label>  
-                  <div class = "position-relative">
-                  <input type="password" id="form3Example3cg" class="form-control form-control-lg pe-5 " name = "Senha_Usuario" required/>
-                  <i class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer fs-3" 
-                  id = "btn-senha"
-                  onclick = "mostrarSenha()">
-                  </i>
-                  </div>
-                  </div>
-                  <br>
+                    <div class="text-center">
+                      <a href="index.php" class="text-decoration-none small text-muted">
+                        <i class="bi bi-arrow-left"></i> Voltar para o <span class="fw-bold text-success">Login</span>
+                      </a>
+                    </div>
+                  </form>
 
-
-                  <div class="d-flex justify-content-center">
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-success btn-block btn-lg text-body w-100">Entrar</button>
-                  </div>
-
-                  <p class="text-center text-muted mt-5 mb-0">Não tem uma conta? <a href="cadastro.php"
-                      class="fw-bold text-body"><u>Cadastre-se aqui</u></a>
-                    </p>
-
-                </form>
-
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
   <script src="assets/js/olhinho.js"></script>
 </body>
