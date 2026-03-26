@@ -153,7 +153,7 @@ $resultado_agentes2 = $agentes->DadosAgentes($conn);
                       <span class="tag"><?= $row["Servicos"] ?></span>
                       <!-- <span class="tag">Exclusivas</span> -->
                     </div>
-                    <a href="agent-profile.php?id<?=$row["ID_Agentes"]?>" class="view-profile">Ver listagens</a>
+                    <a href="agent-profile.php?id=<?=$row["ID_Agentes"]?>" class="view-profile">Ver listagens</a>
                   </div>
                 </div>
               </div>

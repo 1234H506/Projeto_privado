@@ -27,7 +27,5 @@
     }
     }
 
-    public function Imoveis_Do_Agentes($Id_Agentes){
-        
-    }
+    
 ?>
