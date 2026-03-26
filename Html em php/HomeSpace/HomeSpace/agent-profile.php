@@ -1,4 +1,9 @@
 <?php 
+include("conexao.php");
+$Id_Agente = $_GET["id"];
+include("assets/class/exibir_agentes.php");
+$exibir_agentes = new Exibir_agentes("", "", "", "", "", "");
+$resultado_agentes = $exibir_agentes->DadosAgentes($conn);
 
 ?>
 
@@ -256,62 +261,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Contact Form -->
-        <div class="contact-form-section" id="contact" data-aos="fade-up" data-aos-delay="100">
-          <div class="row">
-            <div class="col-lg-8 mx-auto">
-              <div class="contact-form-wrapper">
-                <h3 class="text-center mb-4">Schedule a Consultation</h3>
-                <p class="text-center mb-4">Ready to buy, sell, or invest? Let's discuss your real estate goals and find the perfect solution for you.</p>
-
-                <form action="forms/contact.php" method="post" class="php-email-form">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="name" class="form-label">Full Name</label>
-                      <input type="text" name="name" class="form-control" id="name" required="">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="email" class="form-label">Email Address</label>
-                      <input type="email" name="email" class="form-control" id="email" required="">
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="phone" class="form-label">Phone Number</label>
-                      <input type="tel" name="phone" class="form-control" id="phone">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label for="service" class="form-label">I'm Interested In</label>
-                      <select name="subject" class="form-control" id="service" required="">
-                        <option value="">Select Service</option>
-                        <option value="buying">Buying a Home</option>
-                        <option value="selling">Selling a Home</option>
-                        <option value="investment">Investment Property</option>
-                        <option value="consultation">Market Consultation</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea name="message" class="form-control" id="message" rows="5" placeholder="Tell me about your real estate needs and preferences..."></textarea>
-                  </div>
-
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </section><!-- /Agent Profile Section -->
