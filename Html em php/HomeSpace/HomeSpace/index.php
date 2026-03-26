@@ -17,7 +17,7 @@ $resultado_comentarios = $comentarios->listar($conn);
 
 // exibir agentes
 $agentes = new Exibir_agentes("", "", "", "", "", "");
-$resultado_agentes = $agentes->DadosAgentes($conn);
+$resultado_agentes = $agentes->DadosAgentes($conn,4);
 
 
 ?>
