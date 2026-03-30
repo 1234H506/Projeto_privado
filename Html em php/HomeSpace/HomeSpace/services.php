@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -72,7 +76,7 @@
         <h1 class="mb-2 mb-lg-0">Serviços</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Menu principal</a></li>
+            <li><a href="index.php">Menu principal</a></li>
             <li class="current">Serviços</li>
           </ol>
         </nav>
@@ -85,34 +89,6 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-5">
-
-          <!-- <div class="col-xl-12" data-aos="fade-right" data-aos-delay="200">
-            <div class="service-block">
-              <div class="service-content">
-                <div class="service-number">01</div>
-                <div class="service-info">
-                  <h4>Compras de imóvel</h4>
-                  <p>À procura de imóvel para comprar?</p>
-                  <ul class="service-features">
-                    <li><i class="bi bi-check-circle"></i>Pesquisa de propriedades personalizada</li>
-                    <li><i class="bi bi-check-circle"></i>Análise de Vizinhança</li> -->
-                    <!--<li><i class="bi bi-check-circle"></i> Closing Assistance</li>-->
-                  <!-- </ul>
-                  <a href="service-details.html" class="service-btn">
-                    Comece sua pesquisa <i class="bi bi-arrow-right"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="service-image">
-                <img src="assets/img/real-estate/property-exterior-3.webp" alt="Buy Dream Home" class="img-fluid">
-                <div class="image-overlay">
-                  <i class="bi bi-house-heart"></i>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- End Service Block -->
-
           <div class="col-xl-12" data-aos="fade-left" data-aos-delay="300">
             <div class="service-block">
               <div class="service-content">
@@ -122,12 +98,14 @@
                   <p>Procure uma análise de uma profissional para obter um preço real de seu imóvel</p>
                   <ul class="service-features">
                     <li><i class="bi bi-check-circle"></i> Avaliações de um profissional</li>
-                    <!--<li><i class="bi bi-check-circle"></i>Ajuda para vendas </li>-->
                     <li><i class="bi bi-check-circle"></i>Preço real</li>
                   </ul>
-                  <a href="service-details.html" class="service-btn">
-                    Obter avaliação <i class="bi bi-arrow-right"></i>
-                  </a>
+                  <form action="vendas.php" method="POST">
+                <input type="hidden" name="id_servico_vendas" value="Vendas">
+                <button type="submit" class="service-btn border-0">
+                   Navegar por aluguéis <i class="bi bi-arrow-right"></i>
+                </button>
+                </form>
                 </div>
               </div>
               <div class="service-image">
@@ -149,11 +127,13 @@
                   <ul class="service-features">
                     <li><i class="bi bi-check-circle"></i> Variedades de imóveis </li>
                     <li><i class="bi bi-check-circle"></i> Termos de locação flexíveis</li>
-                    <!--<li><i class="bi bi-check-circle"></i> </li>-->
                   </ul>
-                  <a href="service-details.html" class="service-btn">
-                    Navegar por aluguéis <i class="bi bi-arrow-right"></i>
-                  </a>
+                  <form action="arrendamento.php" method="POST">
+                <input type="hidden" name="id_servico_arrendamento" value="arrendamento">
+                <button type="submit" class="service-btn border-0">
+                   Navegar por aluguéis <i class="bi bi-arrow-right"></i>
+                </button>
+                </form>
                 </div>
               </div>
               <div class="service-image">
@@ -177,70 +157,7 @@
 
   </main>
 
-  <footer id="footer" class="footer accent-background">
-
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">HomeSpace</span>
-          </a>
-          <!--<p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>-->
-          <div class="social-links d-flex mt-4">
-            <a href="contact.html"><i class="bi bi-envelope"></i></a>
-            <!--<a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>-->
-          </div>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Links</h4>
-          <ul>
-            <li><a href="index.html">Menu principal</a></li>
-            <!--<li><a href="#">About us</a></li>-->
-            <li><a href="properties.html">Propriedades</a></li>
-            <li><a href="services.html">Serviços</a></li>
-            <li><a href="agents.html">Agentes</a></li>
-            <li><a href="contact.html">Contatos</a></li>
-          </ul>
-        </div>
-
-        <!--<div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>-->
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contate-nos</h4>
-          <p>A108 Adam Street</p>
-          <p>New York, NY 535022</p>
-          <p>Portugal</p>
-          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-          <p><strong>Email:</strong> <span>info@example.com</span></p>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">HomeSpace</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
-  </footer>
+  <?php include("footer.php"); ?>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
