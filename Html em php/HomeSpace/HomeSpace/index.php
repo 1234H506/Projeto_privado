@@ -537,49 +537,26 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
 
         <div class="row g-4">
 
-          <!-- <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-            <div class="service-card">
-              <div class="service-icon">
-                <i class="bi bi-search"></i>
-              </div>
-              <div class="service-info">
-                <h3><a href="service-details.html">Pesquisa de imóveis para compras</a></h3>
-                <p>Imóveis prontos e à sua espera.</p>
-                <ul class="service-highlights">
-                  <li><i class="bi bi-check-circle-fill"></i> Listagens abrangentes</li>
-                  <li><i class="bi bi-check-circle-fill"></i> Filtragem avançada</li>
-                  <li><i class="bi bi-check-circle-fill"></i> Visitas virtual</li>
-                </ul>
-                <a href="service-details.html" class="service-link">
-                  <span>Explorar</span>
-                  <i class="bi bi-arrow-up-right"></i>
-                </a>
-              </div>
-              <div class="service-visual">
-                <img src="assets/img/real-estate/property-interior-2.webp" class="img-fluid" alt="Property Search"
-                  loading="lazy">
-              </div>
-            </div>
-          </div> -->
-          <!-- End Service Item -->
-
           <div class="col-lg-6" data-aos="fade-right" data-aos-delay="300">
             <div class="service-card">
               <div class="service-icon">
                 <i class="bi bi-key"></i>
               </div>
               <div class="service-info">
-                <h3><a href="service-details.html">Imóveis alugavéis</a></h3>
+                <h3>Imóveis alugavéis</h3>
                 <p>Os melhores imóveis da sua região podem estar aqui.</p>
                 <ul class="service-highlights">
                   <li><i class="bi bi-check-circle-fill"></i> Correspondência de inquilino</li>
                   <li><i class="bi bi-check-circle-fill"></i> Gestão de local</li>
                   <li><i class="bi bi-check-circle-fill"></i> Regiões restritas</li>
                 </ul>
-                <a href="service-details.html" class="service-link">
-                  <span>Explora</span>
-                  <i class="bi bi-arrow-up-right"></i>
-                </a>
+                <form action="arrendamento.php" method="POST">
+                <input type="hidden" name="id_servico_arrendamento" value="arrendamento">
+                <button type="submit" class="service-link border-0">
+                    <span>Explora</span>
+                    <i class="bi bi-arrow-up-right"></i>
+                </button>
+                </form>
               </div>
               <div class="service-visual">
                 <img src="assets/img/real-estate/property-interior-8.webp" class="img-fluid" alt="Property Rental"
@@ -594,16 +571,19 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
                 <i class="bi bi-calculator"></i>
               </div>
               <div class="service-info">
-                <h3><a href="service-details.html">Vendas de casas ou apartamentos</a></h3>
+                <h3>Vendas de casas ou apartamentos</h3>
                 <p>Encontre-nos para uma avaliação do local e discussões de preços.</p>
                 <ul class="service-highlights">
                   <li><i class="bi bi-check-circle-fill"></i> Análise do local</li>
                   <li><i class="bi bi-check-circle-fill"></i> Debates pelo melhores preços</li>
                 </ul>
-                <a href="service-details.html" class="service-link">
-                  <span>Explorar</span>
-                  <i class="bi bi-arrow-up-right"></i>
-                </a>
+                <form action="vendas.php" method="POST">
+                <input type="hidden" name="id_servico_vendas" value="Vendas">
+                <button type="submit" class="service-link border-0">
+                    <span>Explora</span>
+                    <i class="bi bi-arrow-up-right"></i>
+                </button>
+                </form>
               </div>
               <div class="service-visual">
                 <img src="assets/img/real-estate/property-exterior-1.webp" class="img-fluid" alt="Property Valuation"
@@ -656,7 +636,7 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
                       <span class="tag"><?= $row["Servicos"] ?></span>
                       <!-- <span class="tag">Exclusivas</span> -->
                     </div>
-                    <a href="agent-profile.php?id<?=$row["ID_Agentes"]?>" class="view-profile">Ver listagens</a>
+                    <a href="agent-profile.php?id=<?=$row["ID_Agentes"]?>" class="view-profile">Ver listagens</a>
                   </div>
                 </div>
               </div>

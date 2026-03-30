@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$acao = $_POST['id_servico_arrendamento'] ?? $_GET['id_servico_arrendamento'] ?? '';
+$acao = $_POST['id_servico_vendas'] ?? $_GET['id_servico_vendas'] ?? '';
 $pagina = $_POST['page'] ?? $_GET['page'] ?? 1;
 $pagina = (int) $pagina;
 
@@ -296,7 +296,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                   <ul class="pagination justify-content-lg-end">
                     <?php if ($pagina > 1): ?>
                       <li class="page-item">
-                        <a class="page-link" href="?id_servico_arrendamento=<?= urlencode($acao) ?>&page=<?= $pagina - 1 ?>">
+                        <a class="page-link" href="?id_servico_vendas=<?= urlencode($acao) ?>&page=<?= $pagina - 1 ?>">
                           <i class="bi bi-chevron-left"></i>
                         </a>
                       </li>
@@ -304,7 +304,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
                     <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
                       <li class="page-item <?= ($pagina == $i) ? 'active' : '' ?>">
-                        <a class="page-link" href="?id_servico_arrendamento=<?= urlencode($acao) ?>&page=<?= $i ?>">
+                        <a class="page-link" href="?id_servico_vendas=<?= urlencode($acao) ?>&page=<?= $i ?>">
                           <?= $i ?>
                         </a>
                       </li>
@@ -312,7 +312,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
                     <?php if ($pagina < $total_paginas): ?>
                       <li class="page-item">
-                        <a class="page-link" href="?id_servico_arrendamento=<?= urlencode($acao) ?>&page=<?= $pagina + 1 ?>">
+                        <a class="page-link" href="?id_servico_vendas=<?= urlencode($acao) ?>&page=<?= $pagina + 1 ?>">
                           <i class="bi bi-chevron-right"></i>
                         </a>
                       </li>
