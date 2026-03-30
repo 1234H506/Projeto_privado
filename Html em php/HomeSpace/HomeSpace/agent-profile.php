@@ -1,9 +1,15 @@
 <?php 
 include("conexao.php");
-$Id_Agente = $_GET["id"];
 include("assets/class/exibir_agentes.php");
-$exibir_agentes = new Exibir_agentes("", "", "", "", "", "");
-$resultado_agentes = $exibir_agentes->DadosAgentes($conn);
+include("Funcoes_util.php");
+$Id_Agente = $_GET["id"];
+$exibir_agente_unico = new Exibir_agentes("", "", "", "", "", "");
+$resultado_agente_unico = $exibir_agente_unico->AgenteUnico($conn, $Id_Agente);
+$Contagem_imoveis = $exibir_agente_unico->contagemDeImoveis($conn, $Id_Agente);
+$Contagem_de_visitas = $exibir_agente_unico->contagemDeVisitasFeitas($conn,$Id_Agente);
+
+
+
 
 ?>
 
@@ -88,6 +94,8 @@ $resultado_agentes = $exibir_agentes->DadosAgentes($conn);
       </div>
     </div><!-- End Page Title -->
 
+    <?php if ($resultado_agente_unico && $resultado_agente_unico->num_rows > 0){
+      $row = $resultado_agente_unico->fetch_assoc(); ?>
     <!-- Agent Profile Section -->
     <section id="agent-profile" class="agent-profile section">
 
@@ -97,34 +105,32 @@ $resultado_agentes = $exibir_agentes->DadosAgentes($conn);
         <div class="row align-items-center mb-5">
           <div class="col-lg-4" data-aos="fade-right" data-aos-delay="150">
             <div class="agent-photo-wrapper">
-              <img src="assets/img/real-estate/agent-3.webp" alt="Agent Profile" class="img-fluid agent-photo">
+              <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/agents/<?= $row['Imagem'] ?>" alt="Perfil do agente " class="img-fluid agent-photo">
             </div>
           </div>
           <div class="col-lg-8" data-aos="fade-left" data-aos-delay="200">
             <div class="agent-info">
-              <h1 class="agent-name">Sarah Martinez</h1>
-              <p class="agent-title">Senior Real Estate Advisor</p>
-              <p class="agent-tagline">"Helping you find not just a house, but your perfect home in the heart of the city."</p>
+              <h1 class="agent-name"><?= $row["nome"] ?></h1>
 
               <div class="contact-info-hero">
-                <div class="contact-item">
+                <!-- <div class="contact-item">
                   <i class="bi bi-telephone-fill"></i>
-                  <span>+1 (555) 234-5678</span>
+                  <span><?= num_Formatado($row["NdeTelemovel"])?></span>
                 </div>
                 <div class="contact-item">
                   <i class="bi bi-envelope-fill"></i>
-                  <span>sarah.martinez@example.com</span>
-                </div>
+                  <span><?= $row["Email"]?></span>
+                </div> -->
                 <div class="contact-item">
                   <i class="bi bi-geo-alt-fill"></i>
-                  <span>Downtown &amp; Suburbs Specialist</span>
-                </div>
+                  <span><?= $row["concelho"] ?></span>
+                </div> 
               </div>
 
-              <div class="hero-actions">
+              <!-- <div class="hero-actions">
                 <a href="#contact" class="btn btn-primary">Contact Me Now</a>
                 <a href="#listings" class="btn btn-outline">View My Listings</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -137,17 +143,17 @@ $resultado_agentes = $exibir_agentes->DadosAgentes($conn);
                 <div class="stat-icon">
                   <i class="bi bi-house-door-fill"></i>
                 </div>
-                <div class="stat-number">180+</div>
-                <div class="stat-label">Homes Sold</div>
+                <div class="stat-number"><?= $Contagem_imoveis; ?></div>
+                <div class="stat-label">Imóveis Disponível</div>
               </div>
             </div>
-            <!-- <div class="col-lg-3 col-md-6 mb-4">
+             <div class="col-lg-3 col-md-6 mb-4">
               <div class="stat-item">
                 <div class="stat-icon">
                   <i class="bi bi-calendar-check-fill"></i>
                 </div>
-                <div class="stat-number">8</div>
-                <div class="stat-label">Years Experience</div>
+                <div class="stat-number"><?= $Contagem_de_visitas; ?></div>
+                <div class="stat-label">Visitas Realizadas</div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">
@@ -167,7 +173,7 @@ $resultado_agentes = $exibir_agentes->DadosAgentes($conn);
                 <div class="stat-number">Top 5%</div>
                 <div class="stat-label">Nationwide</div>
               </div>
-            </div> -->
+            </div> 
           </div>
         </div>
 
@@ -176,94 +182,93 @@ $resultado_agentes = $exibir_agentes->DadosAgentes($conn);
           <div class="col-lg-4 mb-4">
             <div class="sidebar-info">
               <div class="contact-card">
-                <h4>Get In Touch</h4>
+                <h4>Entre em Contato</h4>
 
                 <div class="contact-details">
                   <div class="contact-detail">
                     <i class="bi bi-telephone"></i>
                     <div>
-                      <strong>Phone</strong>
-                      <p>+1 (555) 234-5678</p>
+                      <strong>Telemóvel</strong>
+                      <p><?= num_Formatado($row["NdeTelemovel"])?></p>
                     </div>
                   </div>
                   <div class="contact-detail">
                     <i class="bi bi-envelope"></i>
                     <div>
                       <strong>Email</strong>
-                      <p>sarah.martinez@example.com</p>
+                      <p><?= $row["Email"] ?></p>
                     </div>
                   </div>
-                  <div class="contact-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <div>
-                      <strong>Office</strong>
-                      <p>1234 Main Street<br>Austin, TX 78701</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="social-links">
-                  <a href="#"><i class="bi bi-linkedin"></i></a>
-                  <a href="#"><i class="bi bi-facebook"></i></a>
-                  <a href="#"><i class="bi bi-instagram"></i></a>
-                  <a href="#"><i class="bi bi-whatsapp"></i></a>
                 </div>
               </div>
 
               <div class="specialties-card">
-                <h4>Specialties</h4>
+                <h4>Especialista em </h4>
                 <div class="specialty-tags">
-                  <span class="specialty-tag">Luxury Homes</span>
-                  <span class="specialty-tag">First-Time Buyers</span>
-                  <span class="specialty-tag">Investment Properties</span>
-                  <span class="specialty-tag">Relocation</span>
-                  <span class="specialty-tag">Bilingual Support</span>
-                </div>
-              </div>
-
-              <div class="certifications-card">
-                <h4>Certifications</h4>
-                <div class="cert-item">
-                  <i class="bi bi-award-fill"></i>
-                  <span>Certified Residential Specialist (CRS)</span>
-                </div>
-                <div class="cert-item">
-                  <i class="bi bi-shield-check"></i>
-                  <span>Graduate REALTOR Institute (GRI)</span>
-                </div>
-                <div class="cert-item">
-                  <i class="bi bi-house-fill"></i>
-                  <span>Luxury Home Marketing Specialist</span>
+                  <span class="specialty-tag"><?= $row["Servicos"]?></span>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="col-lg-8">
-            <div class="bio-content">
-              <h3>About Sarah</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+  <div class="bio-content">
+    <h3 class="mb-4">Imóveis Disponíveis</h3>
 
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <div class="row" data-aos="fade-up" data-aos-delay="200">
+      <?php
+      // Usando a variável $Id_Agente que você definiu no topo do ficheiro
+      // Removi o filtro de id_imovel pois aqui queremos mostrar todos os imóveis do agente
+      $propriedades_agente = "SELECT i.Tipologia, i.Areautil, i.Estado, i.Preco, a.Servicos, i.Morada, i.Imagens, i.ID_Imoveis 
+                             FROM imoveis i, agentes a 
+                             WHERE i.Agentes_ID_Agentes = a.ID_Agentes 
+                             AND a.ID_Agentes = $Id_Agente 
+                            --  AND (a.Servicos = 'Vendas' OR a.Servicos = 'Arrendamento') 
+                             ORDER BY i.ID_Imoveis DESC ";
 
-              <h4>My Approach</h4>
-              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+      $result_agente = mysqli_query($conn, $propriedades_agente);
 
-              <div class="achievements">
-                <h4>Recent Achievements</h4>
-                <ul>
-                  <li>Top 5% of agents nationwide in 2023</li>
-                  <li>Closed over $25M in sales last year</li>
-                  <li>Winner of "Client Choice Award" 2023</li>
-                  <li>Featured in Austin Real Estate Magazine</li>
-                </ul>
+      if ($result_agente && mysqli_num_rows($result_agente) > 0) {
+        while ($row_p = mysqli_fetch_assoc($result_agente)) {
+          $p_tipologia = $row_p["Tipologia"];
+          $p_area = $row_p["Areautil"];
+          $p_estado = $row_p["Estado"];
+          $p_preco = $row_p["Preco"];
+          $p_servico = $row_p["Servicos"];
+          $p_morada = $row_p["Morada"];
+          $p_imagem = $row_p["Imagens"];
+          $p_idimovel = $row_p["ID_Imoveis"];
+      ?>
+          <div class="col-md-4 mb-4">
+            <div class="similar-property-item shadow-sm h-100" onclick="window.location.href='A_agente_property-details.php?id=<?= $p_idimovel; ?>'" style="cursor: pointer; border-radius: 10px; overflow: hidden; background: #fff;">
+              <div style="height: 180px; overflow: hidden;">
+                <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $p_imagem ?>" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Imóvel">
+              </div>
+              <div class="similar-info p-3">
+                <h6 style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><?= $p_morada; ?></h6>
+                <p class="similar-price" style="color: #2eca6a; font-weight: bold; margin-bottom: 5px;">
+                  €<?= preco_formatado($p_preco, $p_servico) ?>
+                </p>
+                <p class="similar-specs" style="font-size: 0.8rem; color: #777; margin-bottom: 0;">
+                  <?= $p_tipologia ?> • <?= $p_area; ?> m²
+                </p>
               </div>
             </div>
           </div>
+      <?php
+        }
+      } else {
+        echo "<div class='col-12'><p class='text-muted'>Este agente ainda não possui imóveis listados.</p></div>";
+      }
+      ?>
+    </div> </div>
+</div>
         </div>
       </div>
 
     </section><!-- /Agent Profile Section -->
+
+    <?php } ?>
 
   </main>
 
