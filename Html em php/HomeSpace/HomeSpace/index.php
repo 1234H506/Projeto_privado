@@ -1,12 +1,26 @@
 <?php
 session_start();
 
-
-
-
+include("Funcoes_util.php");
+include("assets/class/ImovelRepository.php");
 include("assets/class/exibir_agentes.php");
 require_once("conexao.php");
 require_once("assets/class/comentario.php");
+
+$repo = new ImovelRepository($conn);
+$imoveis = $repo->getTodos();
+
+// Define o imóvel principal (o mais recente)
+$imovelPrincipal = $repo->getMaisRecente(); // se ainda retorna array, pega o primeiro
+$imovelPrincipal = $imovelPrincipal[0]; // array do primeiro resultado
+
+$imoveisFiltrados = array_filter($imoveis, function ($item) use ($imovelPrincipal) {
+  return $item['ID_Imoveis'] != $imovelPrincipal['ID_Imoveis'];
+});
+
+$imoveisFiltrados = array_values($imoveisFiltrados);
+
+
 
 /** @var mysqli $conn */
 
@@ -17,7 +31,7 @@ $resultado_comentarios = $comentarios->listar($conn);
 
 // exibir agentes
 $agentes = new Exibir_agentes("", "", "", "", "", "");
-$resultado_agentes = $agentes->DadosAgentes($conn,4);
+$resultado_agentes = $agentes->DadosAgentes($conn, 4);
 
 
 ?>
@@ -352,6 +366,7 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
         <p>Um pouco do que podemos oferecer</p>
       </div><!-- End Section Title -->
 
+
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-5">
@@ -360,21 +375,23 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
 
             <div class="featured-property-main" data-aos="zoom-in" data-aos-delay="200">
               <div class="property-hero">
-                <img src="assets/img/real-estate/property-exterior-4.webp" alt="Luxury Estate" class="img-fluid">
+                <img
+                  src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovelPrincipal['Imagens'] ?>"
+                  alt="Imóvel mais recente" class="img-fluid">
                 <div class="property-overlay">
-                  <div class="property-badge-main premium">Premium</div>
+                  <div class="property-badge-main premium"><?= $imovelPrincipal['Servicos'] ?></div>
                   <div class="property-stats">
                     <div class="stat-item">
                       <i class="bi bi-house-door"></i>
-                      <span>6 Quartos</span>
+                      <span><?= $imovelPrincipal['Tipologia'] ?></span>
                     </div>
                     <div class="stat-item">
-                      <i class="bi bi-droplet-fill"></i>
-                      <span>5 Casas de Banhos</span>
+                      <i class="bi bi-bar-chart-line"></i>
+                      <span><?= $imovelPrincipal['Estado'] ?></span>
                     </div>
                     <div class="stat-item">
                       <i class="bi bi-arrows-move"></i>
-                      <span>5,500 m²</span>
+                      <span><?= $imovelPrincipal['Areautil'] ?> m²</span>
                     </div>
                   </div>
                 </div>
@@ -382,144 +399,93 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
               <div class="property-hero-content">
                 <div class="property-header">
                   <div class="property-info">
-                    <h2><a href="property-details.html">Magnífica propriedade com vista para o jardim.</a></h2>
+                    <h2><i class="bi bi-geo-alt-fill"></i>
+                      <span><?= $imovelPrincipal['Morada'] ?></span>
+                    </h2>
                     <div class="property-address">
-                      <i class="bi bi-geo-alt-fill"></i>
-                      <span>Malibu, CA 90265</span>
+
                     </div>
                   </div>
-                  <div class="property-price-main">€4,850,000</div>
+                  <div class="property-price-main">
+                    <?= "€" . " " . preco_formatado($imovelPrincipal['Preco'], $imovelPrincipal['Servicos']) ?>
+                  </div>
                 </div>
-                <p class="property-description">Luxuosa propriedade situada nas exclusivas colinas de Malibu, com vistas
-                  panorâmicas para o oceano, piscina infinita, adega e quadra de tênis privativa. Uma obra-prima
-                  arquitetônica com acabamentos de primeira linha em todos os ambientes.</p>
+                <p class="property-description"><?= $imovelPrincipal['Comentariosderaridade'] ?></p>
                 <div class="property-actions-main">
-                  <a href="property-details.html" class="btn-primary-custom">Visualizar</a>
-                  <!--<a href="property-details.html" class="btn-outline-custom">View Gallery</a>-->
+                  <a href="A_agente_property-details.php?id=<?= $imovelPrincipal['ID_Imoveis'] ?>"
+                    class="btn-primary-custom">
+                    Visualizar
+                  </a>
                   <div class="property-listing-info">
-                    <span class="listing-status for-sale">À venda</span>
-                    <span class="listing-date">Listando hoje</span>
+                    <span class="listing-date">Listando <?= Data_formatada($imovelPrincipal['Dataderegistro']) ?></span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
-
           <div class="col-lg-4">
-
             <div class="properties-sidebar">
-
-              <div class="sidebar-property-card" data-aos="fade-left" data-aos-delay="300">
-                <div class="sidebar-property-image">
-                  <img src="assets/img/real-estate/property-exterior-1.webp" alt="Modern Condo" class="img-fluid">
-                  <div class="sidebar-property-badge hot">Oportunidade imperdível</div>
-                </div>
-                <div class="sidebar-property-content">
-                  <h4><a href="property-details.html">Condomínio contemporâneo no centro da cidade</a></h4>
-                  <div class="sidebar-location">
-                    <i class="bi bi-pin-map"></i>
-                    <span>Seattle, WA 98101</span>
+              <?php foreach (array_slice($imoveisFiltrados, 0, 2) as $imovel): ?>
+                <div class="sidebar-property-card" data-aos="fade-left" data-aos-delay="300">
+                  <div class="sidebar-property-image">
+                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovel['Imagens'] ?>"
+                      alt="Imóvel disponível" class="img-fluid">
+                    <div class="sidebar-property-badge hot"><?= $imovel['Servicos'] ?></div>
                   </div>
-                  <div class="sidebar-specs">
-                    <span><i class="bi bi-house"></i> 3 Quartos</span>
-                    <span><i class="bi bi-droplet"></i> 2 Casas de banhos</span>
-                    <span><i class="bi bi-rulers"></i> 195 m²</span>
-                  </div>
-                  <div class="sidebar-price-row">
-                    <div class="sidebar-price">€1,595,000</div>
-                    <a href="property-details.html" class="sidebar-btn">Visualizar</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="sidebar-property-card" data-aos="fade-left" data-aos-delay="400">
-                <div class="sidebar-property-image">
-                  <img src="assets/img/real-estate/property-exterior-9.webp" alt="Family Home" class="img-fluid">
-                  <div class="sidebar-property-badge new">Nova listagem</div>
-                </div>
-                <div class="sidebar-property-content">
-                  <h4><a href="property-details.html">Residência familiar elegante</a></h4>
-                  <div class="sidebar-location">
-                    <i class="bi bi-pin-map"></i>
-                    <span>Portland, OR 97201</span>
-                  </div>
-                  <div class="sidebar-specs">
-                    <span><i class="bi bi-house"></i> 4 Quartos</span>
-                    <span><i class="bi bi-droplet"></i> 3 Casas de banhos</span>
-                    <span><i class="bi bi-rulers"></i> 3,100 m²</span>
-                  </div>
-                  <div class="sidebar-price-row">
-                    <div class="sidebar-price">€925,000</div>
-                    <a href="property-details.html" class="sidebar-btn">Visualizar</a>
+                  <div class="sidebar-property-content">
+                    <div class="sidebar-location">
+                      <i class="bi bi-pin-map"></i>
+                      <span><?= $imovel['Morada'] ?></span>
+                    </div>
+                    <div class="sidebar-specs">
+                      <span><i class="bi bi-house"></i><?= $imovel['Tipologia'] ?></span>
+                      <span><i class="bi bi-bar-chart-line"></i> <?= $imovel['Estado'] ?></span>
+                      <span><i class="bi bi-rulers"></i> <?= $imovel['Areautil'] ?> m²</span>
+                    </div>
+                    <div class="sidebar-price-row">
+                      <div class="sidebar-price"><?= "€" . " " . preco_formatado($imovel['Preco'], $imovel['Servicos']) ?></div>
+                      <a href="A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="sidebar-btn">
+                        Visualizar
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-
+              <?php endforeach; ?>
             </div>
-
           </div>
-
         </div>
-
         <div class="row gy-4 mt-4">
-
-          <div class="col-xl-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="property-card-horizontal">
-              <div class="property-image-horizontal">
-                <img src="assets/img/real-estate/property-interior-5.webp" alt="Penthouse" class="img-fluid">
-                <div class="property-badge-horizontal exclusive">Exclusiva</div>
-              </div>
-              <div class="property-content-horizontal">
-                <h3><a href="property-details.html"> Cobertura de luxo</a></h3>
-                <div class="property-location-horizontal">
-                  <i class="bi bi-geo-alt"></i>
-                  <span>Las Vegas, NV 89102</span>
+          <?php foreach (array_slice($imoveisFiltrados, 2, 2) as $imovel): ?>
+            <div class="col-xl-6" data-aos="fade-up" data-aos-delay="600">
+              <div class="property-card-horizontal">
+                <div class="property-image-horizontal">
+                  <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovel['Imagens'] ?>"
+                    class="img-fluid">
+                  <div class="property-badge-horizontal exclusive"><?= $imovel['Servicos'] ?></div>
                 </div>
-                <div class="property-features">
-                  <span class="feature"><i class="bi bi-house"></i> 3 Quartos</span>
-                  <span class="feature"><i class="bi bi-droplet"></i> 3 Casas de banho</span>
-                  <span class="feature"><i class="bi bi-rulers"></i> 2,850 m²</span>
-                </div>
-                <p>Cobertura espetacular com janelas do chão ao teto e terraço privativo na cobertura com vista para o
-                  horizonte da cidade.</p>
-                <div class="property-footer-horizontal">
-                  <div class="property-price-horizontal">€2,195,000</div>
-                  <a href="property-details.html" class="btn-view-horizontal">Visualizar</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-6" data-aos="fade-up" data-aos-delay="700">
-            <div class="property-card-horizontal">
-              <div class="property-image-horizontal">
-                <img src="assets/img/real-estate/property-interior-8.webp" alt="Modern Home" class="img-fluid">
-                <div class="property-badge-horizontal new">Nova</div>
-              </div>
-              <div class="property-content-horizontal">
-                <h3><a href="property-details.html">Jóia arquitetônica moderna</a></h3>
-                <div class="property-location-horizontal">
-                  <i class="bi bi-geo-alt"></i>
-                  <span>Phoenix, AZ 85001</span>
-                </div>
-                <div class="property-features">
-                  <span class="feature"><i class="bi bi-house"></i> 4 Quartos</span>
-                  <span class="feature"><i class="bi bi-droplet"></i> 3 Casas de banho</span>
-                  <span class="feature"><i class="bi bi-rulers"></i> 3,450 m²</span>
-                </div>
-                <p>Design contemporâneo premiado com características sustentáveis, tecnologia de casa inteligente e
-                  quintal estilo resort.</p>
-                <div class="property-footer-horizontal">
-                  <div class="property-price-horizontal">€1,375,000</div>
-                  <a href="property-details.html" class="btn-view-horizontal">Visualizar</a>
+                <div class="property-content-horizontal">
+                  <div class="property-location-horizontal">
+                    <i class="bi bi-geo-alt"></i>
+                    <span><?= $imovel['Morada'] ?></span>
+                  </div>
+                  <div class="property-features">
+                    <span class="feature"><i class="bi bi-house"></i><?= $imovel['Tipologia'] ?></span>
+                    <span class="feature"><i class="bi bi-bar-chart-line"></i> <?= $imovel['Estado'] ?></span>
+                    <span class="feature"><i class="bi bi-rulers"></i> <?= $imovel['Areautil'] ?> m²</span>
+                  </div>
+                  <p><?= $imovel['Comentariosderaridade'] ?></p>
+                  <div class="property-footer-horizontal">
+                    <div class="property-price-horizontal">  <?= "€" . " " .  preco_formatado($imovel['Preco'], $imovel['Servicos']) ?>
+                    </div>
+                    <a href="A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="btn-view-horizontal">
+                      Visualizar
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
+          <?php endforeach; ?>
         </div>
-
       </div>
 
     </section><!-- /Featured Properties Section -->
@@ -551,11 +517,11 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
                   <li><i class="bi bi-check-circle-fill"></i> Regiões restritas</li>
                 </ul>
                 <form action="arrendamento.php" method="POST">
-                <input type="hidden" name="id_servico_arrendamento" value="arrendamento">
-                <button type="submit" class="service-link border-0">
+                  <input type="hidden" name="id_servico_arrendamento" value="arrendamento">
+                  <button type="submit" class="service-link border-0">
                     <span>Explora</span>
                     <i class="bi bi-arrow-up-right"></i>
-                </button>
+                  </button>
                 </form>
               </div>
               <div class="service-visual">
@@ -578,11 +544,11 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
                   <li><i class="bi bi-check-circle-fill"></i> Debates pelo melhores preços</li>
                 </ul>
                 <form action="vendas.php" method="POST">
-                <input type="hidden" name="id_servico_vendas" value="Vendas">
-                <button type="submit" class="service-link border-0">
+                  <input type="hidden" name="id_servico_vendas" value="Vendas">
+                  <button type="submit" class="service-link border-0">
                     <span>Explora</span>
                     <i class="bi bi-arrow-up-right"></i>
-                </button>
+                  </button>
                 </form>
               </div>
               <div class="service-visual">
@@ -636,7 +602,7 @@ $resultado_agentes = $agentes->DadosAgentes($conn,4);
                       <span class="tag"><?= $row["Servicos"] ?></span>
                       <!-- <span class="tag">Exclusivas</span> -->
                     </div>
-                    <a href="agent-profile.php?id=<?=$row["ID_Agentes"]?>" class="view-profile">Ver listagens</a>
+                    <a href="agent-profile.php?id=<?= $row["ID_Agentes"] ?>" class="view-profile">Ver listagens</a>
                   </div>
                 </div>
               </div>
