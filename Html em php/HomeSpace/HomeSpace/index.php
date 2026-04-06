@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+include("assets/class/visitas.php");
 include("Funcoes_util.php");
 include("assets/class/ImovelRepository.php");
 include("assets/class/exibir_agentes.php");
@@ -9,6 +10,8 @@ require_once("assets/class/comentario.php");
 
 $repo = new ImovelRepository($conn);
 $imoveis = $repo->getTodos();
+$all_properties = $repo ->active_real_estate();
+$imoveis_vendidos = $repo ->propertties_sold();
 
 // Define o imóvel principal (o mais recente)
 $imovelPrincipal = $repo->getMaisRecente(); // se ainda retorna array, pega o primeiro
@@ -32,6 +35,10 @@ $resultado_comentarios = $comentarios->listar($conn);
 // exibir agentes
 $agentes = new Exibir_agentes("", "", "", "", "", "");
 $resultado_agentes = $agentes->DadosAgentes($conn, 4);
+$all_agents = $agentes->active_agents($conn);
+
+$visitas = new visitas($conn);
+$acoes_concluidas = $visitas->completed_visits();
 
 
 ?>
@@ -140,29 +147,27 @@ $resultado_agentes = $agentes->DadosAgentes($conn, 4);
                     <p>Descubra milhares de listagens verificadas</p>
                   </div>
 
-                  <form action="" class="property-search-form">
+                  <form action="../HomeSpace/forms/pesquisa_imovel.php" method="post" class="property-search-form">
                     <div class="search-grid">
                       <div class="search-field">
                         <label for="search-location" class="field-label">Localização</label>
-                        <input type="text" id="search-location" name="location" placeholder="Local" required="">
+                        <input type="text" id="search-location" name="location" placeholder="Local" >
                         <i class="bi bi-geo-alt field-icon"></i>
                       </div>
 
                       <div class="search-field">
                         <label for="search-type" class="field-label">Tipo de propriedade</label>
-                        <select id="search-type" name="property_type" required="">
+                        <select id="search-type" name="property_type" >
                           <option value="">Todos os tipos</option>
-                          <option value="house">Casas</option>
-                          <option value="apartment">Apartamentos</option>
-                          <option value="condo">Condomínio</option>
-                          <option value="villa">Vila</option>
+                          <option value="Casa">Casas</option>
+                          <option value="Apartamento">Apartamentos</option>
                         </select>
                         <i class="bi bi-building field-icon"></i>
                       </div>
 
                       <div class="search-field">
                         <label for="search-budget" class="field-label">Faixa de orçamento</label>
-                        <select id="search-budget" name="price_range" required="">
+                        <select id="search-budget" name="price_range" >
                           <option value="">Qualquer valor</option>
                           <option value="0-300000">Abaixo de €300K</option>
                           <option value="300000-600000">€300K - €600K</option>
@@ -174,13 +179,14 @@ $resultado_agentes = $agentes->DadosAgentes($conn, 4);
                       </div>
 
                       <div class="search-field">
-                        <label for="search-rooms" class="field-label">Nº de Quartos</label>
-                        <select id="search-rooms" name="bedrooms">
-                          <option value="1">1 Quartos</option>
-                          <option value="2">2 Quartos</option>
-                          <option value="3">3 Quartos</option>
-                          <option value="4">4 Quartos</option>
-                          <option value="5+">5+ Quartos</option>
+                        <label for="search-rooms" class="field-label">Tipologia</label>
+                        <select id="search-rooms" name="tipologia">
+                          <option value="1">T0</option>
+                          <option value="2">T1</option>
+                          <option value="3">T2</option>
+                          <option value="4">T3</option>
+                          <option value="5">T4</option>
+                          <option value="5+">T5+</option>
                         </select>
                         <i class="bi bi-door-open field-icon"></i>
                       </div>
@@ -196,21 +202,21 @@ $resultado_agentes = $agentes->DadosAgentes($conn, 4);
                 <div class="achievement-grid" data-aos="fade-up" data-aos-delay="400">
                   <div class="achievement-item">
                     <div class="achievement-number">
-                      <span data-purecounter-start="0" data-purecounter-end="1250" data-purecounter-duration="1"
+                      <span data-purecounter-start="0" data-purecounter-end="<?= $all_properties ?>" data-purecounter-duration="1"
                         class="purecounter"></span>+
                     </div>
                     <span class="achievement-text">Listagem ativas </span>
                   </div>
                   <div class="achievement-item">
                     <div class="achievement-number">
-                      <span data-purecounter-start="0" data-purecounter-end="89" data-purecounter-duration="1"
+                      <span data-purecounter-start="0" data-purecounter-end="<?= $all_agents ?>" data-purecounter-duration="1"
                         class="purecounter"></span>+
                     </div>
                     <span class="achievement-text">Agentes Especialistas</span>
                   </div>
                   <div class="achievement-item">
                     <div class="achievement-number">
-                      <span data-purecounter-start="0" data-purecounter-end="96" data-purecounter-duration="1"
+                      <span data-purecounter-start="0" data-purecounter-end="<?= $acoes_concluidas ?>" data-purecounter-duration="1"
                         class="purecounter"></span>%
                     </div>
                     <span class="achievement-text">Ações concluídas</span>
@@ -316,7 +322,7 @@ $resultado_agentes = $agentes->DadosAgentes($conn, 4);
                     <i class="bi bi-house-door"></i>
                   </div>
                   <div class="achievement-content">
-                    <h4><span data-purecounter-start="0" data-purecounter-end="3200" data-purecounter-duration="2"
+                    <h4><span data-purecounter-start="0" data-purecounter-end="<?= $imoveis_vendidos ?>" data-purecounter-duration="2"
                         class="purecounter"></span>+ Imóveis Vendidos</h4>
 
                   </div>
