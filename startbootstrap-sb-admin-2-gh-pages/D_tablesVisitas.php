@@ -79,17 +79,19 @@ function obterStatusReal($data_inicio_str, $tipologia, $comentario) {
                                             <th>Data de visita</th>
                                             <th>Comentário</th>
                                             <th>Status</th>
+                                            <th>Resultado</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                         // Adicionei i.tipologia na sua Query para o calculo funcionar
-                                        $sql = "SELECT uhi.id_registro, u.Nome, i.Morada, i.tipologia, a.nome as nome_agente, uhi.data, uhi.comentarios 
+                                        $sql = "SELECT uhi.id_registro, u.Nome, i.Morada, i.tipologia, a.nome as nome_agente, uhi.data, uhi.comentarios , uhi.resultado
                                                 FROM utilizador u, agentes a, imoveis i, utilizador_has_imoveis uhi 
                                                 WHERE u.ID_Utilizador = uhi.Utilizador_ID_Utilizador 
                                                 AND i.ID_Imoveis=uhi.Imoveis_ID_Imoveis 
-                                                AND a.ID_Agentes=uhi.Agentes_ID_Agentes;";
+                                                AND a.ID_Agentes=uhi.Agentes_ID_Agentes
+                                                ORDER BY uhi.id_registro DESC";
                                         
                                         $result = mysqli_query($conn, $sql);
 
@@ -102,6 +104,7 @@ function obterStatusReal($data_inicio_str, $tipologia, $comentario) {
                                                 $nomeDoAgente = $row['nome_agente'];
                                                 $dataDeVisita = $row['data'];
                                                 $Comentario = $row['comentarios'];
+                                                $resultado = $row["resultado"];
                                                 
                                                 // NOVO: Cálculo do status em tempo real
                                                 $Curso_da_visita = obterStatusReal($dataDeVisita, $row['tipologia'], $Comentario);
@@ -118,6 +121,7 @@ function obterStatusReal($data_inicio_str, $tipologia, $comentario) {
                                                     <td> <?= $dataDeVisita ?></td>
                                                     <td> <?= $Comentario ?></td>
                                                     <th> <?= $Curso_da_visita ?></th>
+                                                    <th> <?= $resultado ?></th>
 
                                                     <td class="d-flex align-items-center">
                                                         <?php if($Curso_da_visita == "Finalizada"): ?>
