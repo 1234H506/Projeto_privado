@@ -22,6 +22,23 @@ class ImovelRepository{
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    public function active_real_estate(){
+        $sql = "SELECT COUNT(ID_Imoveis) as total FROM `imoveis` WHERE Disponibilidade = 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
+
+    public function propertties_sold(){
+        $sql = "SELECT COUNT(id_registro) as total FROM `utilizador_has_imoveis` WHERE resultado = 'vendido'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
 }
 
 ?>
