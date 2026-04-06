@@ -151,13 +151,13 @@ $acoes_concluidas = $visitas->completed_visits();
                     <div class="search-grid">
                       <div class="search-field">
                         <label for="search-location" class="field-label">Localização</label>
-                        <input type="text" id="search-location" name="location" placeholder="Local" >
+                        <input type="text" id="search-location" name="location" placeholder="Morada">
                         <i class="bi bi-geo-alt field-icon"></i>
                       </div>
 
                       <div class="search-field">
                         <label for="search-type" class="field-label">Tipo de propriedade</label>
-                        <select id="search-type" name="property_type" >
+                        <select id="search-type" name="property_type">
                           <option value="">Todos os tipos</option>
                           <option value="Casa">Casas</option>
                           <option value="Apartamento">Apartamentos</option>
@@ -167,7 +167,7 @@ $acoes_concluidas = $visitas->completed_visits();
 
                       <div class="search-field">
                         <label for="search-budget" class="field-label">Faixa de orçamento</label>
-                        <select id="search-budget" name="price_range" >
+                        <select id="search-budget" name="price_range">
                           <option value="">Qualquer valor</option>
                           <option value="0-300000">Abaixo de €300K</option>
                           <option value="300000-600000">€300K - €600K</option>
