@@ -55,6 +55,15 @@
         return $linha['total_visitas'];
     }
 
+    public function active_agents($conexao){
+        $sql = "SELECT COUNT(ID_Agentes) as total FROM `agentes` ";
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
+
 
     }
 ?>
