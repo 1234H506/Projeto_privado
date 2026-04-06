@@ -401,9 +401,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
   </main>
 
-  <footer id="footer" class="footer accent-background">
     <?php include("footer.php"); ?>
-  </footer>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
