@@ -16,6 +16,7 @@ $imoveis_vendidos = $repo ->propertties_sold();
 // Define o imóvel principal (o mais recente)
 $imovelPrincipal = $repo->getMaisRecente(); // se ainda retorna array, pega o primeiro
 $imovelPrincipal = $imovelPrincipal[0]; // array do primeiro resultado
+$fotos = $repo->getFotosImovel($imovelPrincipal['ID_Imoveis'], 2);
 
 $imoveisFiltrados = array_filter($imoveis, function ($item) use ($imovelPrincipal) {
   return $item['ID_Imoveis'] != $imovelPrincipal['ID_Imoveis'];
@@ -37,6 +38,7 @@ $agentes = new Exibir_agentes("", "", "", "", "", "");
 $resultado_agentes = $agentes->DadosAgentes($conn, 4);
 $all_agents = $agentes->active_agents($conn);
 
+// Visitas
 $visitas = new visitas($conn);
 $acoes_concluidas = $visitas->completed_visits();
 
@@ -229,23 +231,23 @@ $acoes_concluidas = $visitas->completed_visits();
               <div class="hero-visual" data-aos="fade-left" data-aos-delay="400">
                 <div class="visual-container">
                   <div class="featured-property">
-                    <img src="assets/img/real-estate/property-exterior-8.webp" alt="Featured Property"
+                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovelPrincipal['Imagens'] ?>" alt="Imóvel em destaque"
                       class="img-fluid">
                     <div class="property-info">
-                      <div class="property-price">€925,000</div>
+                      <div class="property-price"><?= "€" . " " . preco_formatado($imovelPrincipal['Preco'], $imovelPrincipal['Servicos']) ?></div>
                       <div class="property-details">
-                        <span><i class="bi bi-geo-alt"></i> Downtown District</span>
-                        <span><i class="bi bi-house"></i> 4 Casas de banhos , 3 Quartos</span>
+                        <span><i class="bi bi-geo-alt"></i><?= $imovelPrincipal['Morada'] ?></span>
+                        <span><i class="bi bi-house"></i><?= $imovelPrincipal['Tipologia'] ?></span>
                       </div>
                     </div>
                   </div>
 
                   <div class="overlay-images">
                     <div class="overlay-img overlay-1">
-                      <img src="assets/img/real-estate/property-interior-4.webp" alt="Interior View" class="img-fluid">
+                      <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/galeria/<?= $fotos[0]['Fotos']; ?>" alt="Imagem da galeria" class="img-fluid">
                     </div>
                     <div class="overlay-img overlay-2">
-                      <img src="assets/img/real-estate/property-exterior-2.webp" alt="Exterior View" class="img-fluid">
+                      <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/galeria/<?= $fotos[1]['Fotos']; ?>" alt="Imagem da galeria" class="Imagem da galeria">
                     </div>
                   </div>
 
@@ -253,8 +255,8 @@ $acoes_concluidas = $visitas->completed_visits();
                     <div class="agent-profile">
                       <img src="assets/img/real-estate/agent-7.webp" alt="Agent Profile" class="agent-photo">
                       <div class="agent-info">
-                        <h4>Michael Chen</h4>
-                        <p>Consultor Imobiliário Sênior</p>
+                        <h4>HomeSpace</h4>
+                        <p>Consultas Imobiliário </p>
                         <div class="agent-rating">
                           <div class="stars">
                             <i class="bi bi-star-fill"></i>
@@ -267,9 +269,6 @@ $acoes_concluidas = $visitas->completed_visits();
                         </div>
                       </div>
                     </div>
-                    <button class="contact-agent-btn">
-                      <i class="bi bi-chat-dots"></i>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -327,16 +326,16 @@ $acoes_concluidas = $visitas->completed_visits();
 
                   </div>
                 </div>
-                <div class="achievement-item">
+                <!-- <div class="achievement-item">
                   <div class="achievement-icon">
                     <i class="bi bi-people"></i>
-                  </div>
-                  <div class="achievement-content">
+                  </div> -->
+                  <!-- <div class="achievement-content">
                     <h4><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="1"
                         class="purecounter"></span>% Clientes Satisfeitos</h4>
 
-                  </div>
-                </div>
+                  </div> -->
+                <!-- </div> -->
               </div>
 
               <div class="action-section"><!--
