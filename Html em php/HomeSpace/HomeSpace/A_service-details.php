@@ -7,15 +7,24 @@ if (!isset($_SESSION["id"]) || empty($_SESSION["id"])) {
   exit();
 }
 
-
 include("Funcoes_util.php");
 include("conexao.php");
 require_once("assets/class/comentario.php");
 
-$Id_imovel = $_POST["idimovel"];
+date_default_timezone_set('Europe/Lisbon');
 
+$Id_imovel = $_POST["idimovel"];
+$Id_utilizador = $_SESSION["id"]; // Pegar o ID do usuário logado
+
+// ==================== BUSCAR DADOS DO IMÓVEL ====================
 $sql_imoveis = "SELECT * FROM imoveis WHERE ID_Imoveis=$Id_imovel;";
 $result_imovel = mysqli_query($conn, $sql_imoveis);
+
+$Morada = "";
+$Imagens = "";
+$comentario = "";
+$id_agente = "";
+
 if (mysqli_num_rows($result_imovel) > 0) {
   while ($row = mysqli_fetch_assoc($result_imovel)) {
     $Morada = $row["Morada"];
@@ -27,9 +36,14 @@ if (mysqli_num_rows($result_imovel) > 0) {
   echo "Nenhum dado foi encontrado.";
 }
 
+// ==================== BUSCAR COMENTÁRIOS ====================
 $comentarios = new Comentarios(null, null, null);
-$resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
+$resultado = $comentarios->listarComentarioVisita($conn, $Id_imovel);
 
+// ==================== CALCULAR DATA MÍNIMA (AMANHÃ) ====================
+$hoje = new DateTime('now', new DateTimeZone('Europe/Lisbon'));
+$amanha = $hoje->add(new DateInterval('P1D'));
+$data_minima = $amanha->format('Y-m-d');
 
 ?>
 
@@ -62,14 +76,6 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: HomeSpace
-  * Template URL: https://bootstrapmade.com/homespace-bootstrap-real-estate-template/
-  * Updated: Jul 05 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="service-details-page">
@@ -78,8 +84,6 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.php" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
         <svg class="my-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="bgCarrier" stroke-width="0"></g>
           <g id="tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -132,19 +136,17 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
           <div class="col-lg-8">
             <div class="service-content">
               <div class="service-hero" data-aos="fade-up" data-aos-delay="150">
-                <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $Imagens ?>"
+                <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= htmlspecialchars($Imagens) ?>"
                   alt="Property Sales Service" class="img-fluid rounded">
                 <div class="service-badge">
                   <i class="bi bi-house-door"></i>
-                  <?= $Morada; ?>
+                  <?= htmlspecialchars($Morada); ?>
                 </div>
               </div>
 
               <div class="service-overview" data-aos="fade-up" data-aos-delay="200">
                 <h2>Comentário sobre a propriedade</h2>
-                <p class="lead"><?= $comentario; ?></p>
-
-
+                <p class="lead"><?= htmlspecialchars($comentario); ?></p>
               </div>
 
               <div class="service-features" data-aos="fade-up" data-aos-delay="250">
@@ -285,57 +287,50 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
               <div class="contact-form-widget" data-aos="fade-up" data-aos-delay="200">
                 <h4>Agendamento de horário</h4>
 
-                <form action="forms/contact.php" method="post" class="php-email-form">
+                <!-- Card de sucesso - Inicialmente oculto -->
+                <div id="cardSucesso" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                  <i class="bi bi-check-circle"></i> 
+                  <strong>Sucesso!</strong> Seu agendamento foi realizado para <span id="dataSucesso"></span> às <span id="horaSucesso"></span>. Você receberá uma confirmação em breve.
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
-                  <!-- Id do agente -->
-                   <input type="hidden" name="id_agente" value="Agentes_ID_Agentes">
+                <!-- Card de erro -->
+                <div id="cardErro" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <strong>Erro:</strong> <span id="textoErro"></span>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
-                  <!-- Id do imovel -->
-                   <input type="hidden" name="" value="">
+                <!-- Formulário -->
+                <form id="formAgendamento" class="php-email-form">
 
-                  <!-- data de registro -->
+                  <!-- ID do imovel (hidden) -->
+                  <input type="hidden" name="idimovel" value="<?= htmlspecialchars($Id_imovel) ?>">
+
+                  <!-- ID do agente (hidden) -->
+                  <input type="hidden" name="id_agente" value="<?= htmlspecialchars($id_agente) ?>">
+
+                  <!-- Data de visita - mínimo amanhã -->
                   <div class="col-12 mt-3">
                     <label for="inputData" class="form-label">Data de visita</label>
-                    <input type="date" class="form-control" id="inputData" name="dataDeRegistro" required>
+                    <input type="date" class="form-control" id="inputData" name="dataDeRegistro" 
+                           min="<?= $data_minima ?>" required>
+                    <small class="text-muted">Selecione a partir de amanhã</small>
                   </div>
 
-                  <!-- Hora atual -->
+                  <!-- Hora - será preenchida dinamicamente -->
                   <div class="col-12 mt-3">
-                    <label for="inputHora" class="form-label">Hora inícial</label>
-                    <select name="horaDeRegistro" id="inputHora" class="form-control">
-                      <?php
-                      $inicio_dia = strtotime('08:00');
-                      $fim_dia = strtotime('18:30');
-
-                      $inicio_almoco = strtotime('13:00');
-                      $fim_almoco = strtotime('14:30');
-
-                      for ($i = $inicio_dia; $i <= $fim_dia; $i += 600) {
-                        $tempo = date('H:i', $i);
-
-                        // Lógica da Dica de Ouro:
-                        // Se estiver entre 13:01 e 14:29, adiciona o atributo 'disabled'
-                        $esta_no_almoco = ($i >= $inicio_almoco && $i < $fim_almoco);
-                        $status = $esta_no_almoco ? "disabled style='color: #ccc;'" : "";
-                        $label = $esta_no_almoco ? "$tempo (Almoço)" : $tempo;
-                        ?>
-
-                        <option value="<?= $tempo; ?>" <?= $status; ?>> <?= $label; ?> </option>
-                        <?php
-                      }
-                      ?>
-
+                    <label for="inputHora" class="form-label">Hora</label>
+                    <select name="horaDeRegistro" id="inputHora" class="form-control" required disabled>
+                      <option value="">Selecione a data primeiro</option>
                     </select>
+                    <small class="text-muted" id="aviso-horarios">Selecione uma data para ver horários disponíveis</small>
                   </div>
 
-
-                  <input type="hidden" name="subject" value="Consultation Request">
+                  <!-- Botão submit -->
                   <div class="row gy-3">
                     <div class="col-12 mt-3">
-                      <div class="loading">Loading</div>
-                      <div class="error-message"></div>
-                      <div class="sent-message">Your message has been sent. Thank you!</div>
-                      <button type="submit" class="btn btn-primary w-100">Realizar o registro</button>
+                      <button type="submit" class="btn btn-primary w-100" id="btnSubmit">Realizar o agendamento</button>
                     </div>
                   </div>
                 </form>
@@ -372,12 +367,12 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
                 <div class="testimonial-item">
                   <?php while($row = $resultado->fetch_assoc()){ ?>
                   <div class="testimonial-content">
-                    <p>"<?= $row["comentarios"]?>"</p>
+                    <p>"<?= htmlspecialchars($row["comentarios"])?>"</p>
                   </div>
                   <div class="testimonial-author">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= $row["Imagem"] ?>" alt="Foto Perfil" class="rounded-circle">
+                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= htmlspecialchars($row["Imagem"]) ?>" alt="Foto Perfil" class="rounded-circle">
                     <div class="author-info mb-4">
-                      <h6><?= $row["Nome"] ?></h6>
+                      <h6><?= htmlspecialchars($row["Nome"]) ?></h6>
                     </div>
                   </div>
                   <?php } ?>
@@ -420,9 +415,7 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
   </main>
 
   <footer id="footer" class="footer accent-background">
-
     <?php include("footer.php"); ?>
-
   </footer>
 
   <!-- Scroll Top -->
@@ -432,133 +425,122 @@ $resultado = $comentarios->listarComentarioVisita($conn,$Id_imovel);
   <!-- Preloader -->
   <div id="preloader"></div>
 
-  <!-- Para o AJAX , seleciona o imóvel de acordo com a escolha do agente  -->
-  <script>
-    $(document).ready(function () {
-      // 1. QUANDO MUDAR O AGENTE
-      $('#inputAgentes').change(function () {
-        var id_agente = $(this).val();
-        $('#inputImovel').html('<option value="">Carregando imóveis...</option>');
-        $('#inputData').val('');
-        resetarHorarios();
-
-        if (id_agente != "") {
-          $.ajax({
-            url: "D_ajax_getImoveis.php",
-            type: "POST",
-            data: { id_agente: id_agente },
-            success: function (data) {
-              $('#inputImovel').html(data);
-            }
-          });
-        } else {
-          $('#inputImovel').html('<option value="">Selecione o agente...</option>');
-        }
-      });
-
-      // 2. QUANDO MUDAR IMÓVEL OU DATA
-      $('#inputImovel, #inputData').change(function () {
-        verificarDisponibilidade();
-      });
-
-      function verificarDisponibilidade() {
-        var id_agente = $('#inputAgentes').val();
-        var id_imovel = $('#inputImovel').val();
-        var data_visita = $('#inputData').val();
-
-        if (id_agente && id_imovel && data_visita) {
-          $('#inputHora').prop('disabled', true);
-
-          $.ajax({
-            url: "D_ajax_verificarDisponibilidade.php",
-            type: "POST",
-            dataType: "json",
-            data: {
-              id_agente: id_agente,
-              id_imovel: id_imovel,
-              data_visita: data_visita
-            },
-            success: function (response) {
-              $('#inputHora').prop('disabled', false);
-              resetarHorarios();
-
-              var duracaoNova = parseInt(response.nova_duracao);
-              var ocupados = response.ocupados;
-              var valorSelecionadoNoMomento = $('#inputHora').val();
-
-              // Definição dos limites em minutos
-              var minAlmoco = 13 * 60;        // 13:00 = 780 minutos
-              var minFimDia = 18 * 60 + 30;   // 18:30 = 1110 minutos
-
-              $('#inputHora option').each(function () {
-                var option = $(this);
-                var horaTexto = option.val();
-                if (!horaTexto) return;
-
-                var minNovoInicio = timeToMinutes(horaTexto);
-                var minNovoFim = minNovoInicio + duracaoNova;
-
-                var colidiu = false;
-
-                // 1. REFINAMENTO: Bloqueio por limites de horário (Almoço e Fim do Dia)
-                // Se começa antes das 13h mas termina depois das 13h...
-                if (minNovoInicio < minAlmoco && minNovoFim > minAlmoco) {
-                  colidiu = true;
-                }
-                // Se o fim da visita passa das 18:30...
-                if (minNovoFim > minFimDia) {
-                  colidiu = true;
-                }
-
-                // 2. Verificação de colisões com outras visitas (se ainda não colidiu nos limites)
-                if (!colidiu) {
-                  for (var i = 0; i < ocupados.length; i++) {
-                    var horaBanco = ocupados[i].inicio.split(' ')[1].substring(0, 5);
-                    var minOcupInicio = timeToMinutes(horaBanco);
-                    var minOcupFim = minOcupInicio + parseInt(ocupados[i].duracao);
-
-                    if (minNovoInicio < minOcupFim && minNovoFim > minOcupInicio) {
-                      colidiu = true;
-                      break;
-                    }
-                  }
-                }
-
-                // Aplica o bloqueio visual e funcional
-                if (colidiu) {
-                  option.hide().prop('disabled', true);
-                  if (valorSelecionadoNoMomento === horaTexto) {
-                    $('#inputHora').val('');
-                  }
-                }
-              });
-            }
-          });
-        }
-      }
-
-      function resetarHorarios() {
-        $('#inputHora option').each(function () {
-          var txt = $(this).text();
-          if (txt.indexOf("Almoço") === -1) {
-            $(this).show().prop('disabled', false).text($(this).val());
-          }
-        });
-      }
-
-      function timeToMinutes(t) {
-        var p = t.split(':');
-        return (parseInt(p[0]) * 60) + parseInt(p[1]);
-      }
-    });
-  </script>
-
-  <!-- Vendor JS Files -->
+  <!-- Vendor JS Files - jQuery PRIMEIRO! -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Script para carregar horários disponíveis e submeter formulário -->
+  <script>
+    $(document).ready(function () {
+      
+      // ==================== CARREGAR HORÁRIOS ====================
+      $('#inputData').change(function () {
+        var data_visita = $(this).val();
+        var id_agente = $('input[name="id_agente"]').val();
+
+        if (data_visita && id_agente) {
+          $('#inputHora').prop('disabled', true).html('<option value="">Carregando horários...</option>');
+
+          $.ajax({
+            url: "forms/A_ajax_horarios_disponiveis.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+              data_visita: data_visita,
+              id_agente: id_agente
+            },
+            success: function (response) {
+              if (response.sucesso && response.horarios && response.horarios.length > 0) {
+                var opcoes = '<option value="">Selecione um horário</option>';
+                response.horarios.forEach(function (hora) {
+                  opcoes += '<option value="' + hora + '">' + hora + '</option>';
+                });
+                $('#inputHora').html(opcoes).prop('disabled', false);
+                $('#aviso-horarios').text('Selecione um horário disponível (' + response.horarios.length + ' opções)').removeClass('text-danger').addClass('text-success');
+              } else {
+                $('#inputHora').html('<option value="">Sem horários disponíveis</option>').prop('disabled', true);
+                $('#aviso-horarios').text('Nenhum horário disponível para esta data').removeClass('text-success').addClass('text-danger');
+              }
+            },
+            error: function () {
+              $('#inputHora').html('<option value="">Erro ao carregar horários</option>').prop('disabled', true);
+              $('#aviso-horarios').text('Erro ao verificar disponibilidade').removeClass('text-success').addClass('text-danger');
+            }
+          });
+        } else {
+          $('#inputHora').html('<option value="">Selecione a data primeiro</option>').prop('disabled', true);
+        }
+      });
+
+      // ==================== SUBMETER FORMULÁRIO VIA AJAX ====================
+      $('#formAgendamento').submit(function (e) {
+        e.preventDefault();
+
+        var idimovel = $('input[name="idimovel"]').val();
+        var id_agente = $('input[name="id_agente"]').val();
+        var dataDeRegistro = $('input[name="dataDeRegistro"]').val();
+        var horaDeRegistro = $('select[name="horaDeRegistro"]').val();
+
+        // Validar
+        if (!dataDeRegistro || !horaDeRegistro) {
+          $('#cardErro').show();
+          $('#textoErro').text('Selecione a data e hora');
+          return;
+        }
+
+        // Desabilitar botão
+        $('#btnSubmit').prop('disabled', true).text('Processando...');
+
+        // Enviar via AJAX
+        $.ajax({
+          url: 'forms/A_processar_agendamento.php',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            idimovel: idimovel,
+            id_agente: id_agente,
+            dataDeRegistro: dataDeRegistro,
+            horaDeRegistro: horaDeRegistro
+          },
+          success: function (response) {
+            if (response.sucesso) {
+              // Sucesso!
+              $('#formAgendamento').hide();
+              $('#cardErro').hide();
+              
+              // Formatar data
+              var data = new Date(response.data + 'T00:00:00');
+              var dataFormatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+              
+              $('#dataSucesso').text(dataFormatada);
+              $('#horaSucesso').text(response.hora);
+              $('#cardSucesso').show();
+            } else {
+              // Erro
+              $('#cardErro').show();
+              $('#textoErro').text(response.erro || 'Erro ao realizar agendamento');
+              $('#btnSubmit').prop('disabled', false).text('Realizar o agendamento');
+            }
+          },
+          error: function (xhr) {
+            var erro = 'Erro ao processar agendamento';
+            try {
+              var response = JSON.parse(xhr.responseText);
+              erro = response.erro || erro;
+            } catch(e) {}
+            
+            $('#cardErro').show();
+            $('#textoErro').text(erro);
+            $('#btnSubmit').prop('disabled', false).text('Realizar o agendamento');
+          }
+        });
+      });
+    });
+  </script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
