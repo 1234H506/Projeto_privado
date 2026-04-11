@@ -39,6 +39,21 @@ class ImovelRepository{
         $row = $result->fetch_assoc();
         return $row['total'];
     }
+    public function getFotosImovel($idImovel, $limite = 2){
+    $sql = "SELECT Fotos 
+            FROM galeria 
+            WHERE Imoveis_ID_Imoveis = ? 
+            ORDER BY ID_Galeria ASC 
+            LIMIT ?";
+            
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ii", $idImovel, $limite);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+    
 }
 
 ?>
