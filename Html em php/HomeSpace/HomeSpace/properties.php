@@ -119,44 +119,44 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
     </div><!-- End Page Title -->
 
     <div id="resultado">
-    
-    <!-- Properties Section -->
-    <section id="properties" class="properties section">
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <!-- Properties Section -->
+      <section id="properties" class="properties section">
 
-        <div class="search-bar mb-5" data-aos="fade-up" data-aos-delay="150">
-          <div class="row justify-content-center">
-            <div class="col-lg-10">
-              <div class="search-wrapper">
-                <div class="row g-3">
-                  <div class="col-lg-4 col-md-6">
-                    <div class="search-field">
-                      <label>Localização</label>
-                      <input type="text" class="form-control" placeholder="Digite a morada" id="localizacao">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="search-bar mb-5" data-aos="fade-up" data-aos-delay="150">
+            <div class="row justify-content-center">
+              <div class="col-lg-10">
+                <div class="search-wrapper">
+                  <div class="row g-3">
+                    <div class="col-lg-4 col-md-6">
+                      <div class="search-field">
+                        <label>Localização</label>
+                        <input type="text" class="form-control" placeholder="Digite a morada" id="localizacao">
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4 col-md-6">
-                    <div class="search-field">
-                      <label>Tipo de imóvel</label>
-                      <select id="tipo" class="form-select">
-                        <option>Todos os tipos</option>
-                        <option value="Casa">Casas</option>
-                        <option value="Apartamento">Apartamentos</option>
-                      </select>
+                    <div class="col-lg-4 col-md-6">
+                      <div class="search-field">
+                        <label>Tipo de imóvel</label>
+                        <select id="tipo" class="form-select">
+                          <option>Todos os tipos</option>
+                          <option value="Casa">Casas</option>
+                          <option value="Apartamento">Apartamentos</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4 col-md-6">
-                    <div class="search-field">
-                      <label>Tipo de ações</label>
-                      <select id="acao" class="form-select">
-                        <option>Todas as ações</option>
-                        <option value="Vendas">Compras de imóveis</option>
-                        <option value="Arrendamento">Aluguel de imóveis</option>
-                      </select>
+                    <div class="col-lg-4 col-md-6">
+                      <div class="search-field">
+                        <label>Tipo de ações</label>
+                        <select id="acao" class="form-select">
+                          <option>Todas as ações</option>
+                          <option value="Vendas">Compras de imóveis</option>
+                          <option value="Arrendamento">Aluguel de imóveis</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <!-- <div class="col-lg-3 col-md-6">
+                    <!-- <div class="col-lg-3 col-md-6">
                     <div class="search-field">
                       <label>Preços</label>
                       <select id="preco" class="form-select">
@@ -167,60 +167,60 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                       </select>
                     </div>
                   </div> -->
-                  <div class="col-lg-5 col-md-6">
-                    <div class="search-field">
-                      <label>Tipologia</label>
-                      <div class="bedroom-quick">
-                        <button class="bed-btn" data-beds="any">T0</button>
-                        <button class="bed-btn" data-beds="T1">T1</button>
-                        <button class="bed-btn" data-beds="T2">T2</button>
-                        <button class="bed-btn" data-beds="T3">T3</button>
-                        <button class="bed-btn" data-beds="T4">T4</button>
-                        <button class="bed-btn" data-beds="T5">T5+</button>
+                    <div class="col-lg-5 col-md-6">
+                      <div class="search-field">
+                        <label>Tipologia</label>
+                        <div class="bedroom-quick">
+                          <button class="bed-btn" data-beds="any">T0</button>
+                          <button class="bed-btn" data-beds="T1">T1</button>
+                          <button class="bed-btn" data-beds="T2">T2</button>
+                          <button class="bed-btn" data-beds="T3">T3</button>
+                          <button class="bed-btn" data-beds="T4">T4</button>
+                          <button class="bed-btn" data-beds="T5">T5+</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                      <div class="search-field">
+                        <label>&nbsp;</label>
+                        <button id="Btn_de_filtragem" class="btn btn-primary w-100 search-btn">
+                          <i class="bi bi-search"></i> Procurar
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="search-field">
-                      <label>&nbsp;</label>
-                      <button id="Btn_de_filtragem" class="btn btn-primary w-100 search-btn">
-                        <i class="bi bi-search"></i> Procurar
-                      </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-header mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <div class="results-info">
+                  <!-- <h5>(números) propriedades encontradas</h5> -->
+                  <h5>Exibindo : <?= $Contagem_imoveis; ?> imóveis</h5>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="results-controls">
+                  <div class="d-flex gap-3 align-items-center justify-content-lg-end">
+                    <div class="sort-dropdown">
+                      <select class="form-select form-select-sm">
+                        <option>Preço : Menor para maior</option>
+                        <option>Preço : Menor para maior</option>
+                        <option>Preço : Maior para menor</option>
+                        <option>Por ordem de listagem : Recentes para antigos</option>
+                        <option>Por ordem de listagem : Recentes para antigos</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="results-header mb-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="row align-items-center">
-            <div class="col-lg-6">
-              <div class="results-info">
-                <!-- <h5>(números) propriedades encontradas</h5> -->
-                <h5>Exibindo : <?= $Contagem_imoveis; ?> imóveis</h5>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="results-controls">
-                <div class="d-flex gap-3 align-items-center justify-content-lg-end">
-                  <div class="sort-dropdown">
-                    <select class="form-select form-select-sm">
-                      <option>Preço : Menor para maior</option>
-                      <option>Preço : Menor para maior</option>
-                      <option>Preço : Maior para menor</option>
-                      <option>Por ordem de listagem : Recentes para antigos</option>
-                      <option>Por ordem de listagem : Recentes para antigos</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        
           <div class="properties-container">
 
             <div class="properties-masonry view-masonry active" data-aos="fade-up" data-aos-delay="250">
@@ -275,14 +275,14 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                               <span class="status-badge sale">Para <?= $Servico; ?> </span>
                             </div>
                             <div class="property-actions">
-                              <button class="action-btn favorite-btn" data-toggle="tooltip" title="Add to Favorites"
+                              <!-- <button class="action-btn favorite-btn" data-toggle="tooltip" title="Add to Favorites"
                                 onclick="event.stopPropagation(); return false;">
                                 <i class="bi bi-heart"></i>
                               </button>
                               <button class="action-btn share-btn" data-toggle="tooltip" title="Share Property"
                                 onclick="event.stopPropagation(); return false;">
                                 <i class="bi bi-share"></i>
-                              </button>
+                              </button> -->
                               <button class="action-btn gallery-btn" data-toggle="tooltip" title="View Gallery">
                                 <i class="bi bi-images"></i>
                                 <span class="gallery-count"><?= $ContagemDeImagens; ?></span>
@@ -350,58 +350,58 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                 }
                 ?>
 
-        
-        <div>
 
-          <nav class="pagination-wrapper mt-5" data-aos="fade-up" data-aos-delay="350">
+          <div>
+
             <nav class="pagination-wrapper mt-5" data-aos="fade-up" data-aos-delay="350">
-    <div class="row justify-content-between align-items-center">
-        <div class="col-lg-6">
-            <div class="pagination-info">
-                <?php
-                $inicio_exibicao = $inicio + 1;
-                $fim_exibicao = min($inicio + $imoveis_por_pagina, $Contagem_imoveis);
-                ?>
-                <p>Exibindo <strong><?= $inicio_exibicao ?>-<?= $fim_exibicao ?></strong> de <strong><?= $Contagem_imoveis ?></strong> propriedades</p>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <ul class="pagination justify-content-lg-end">
-                <?php if ($pagina > 1): ?>
-                    <li class="page-item">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-lg-6">
+                  <div class="pagination-info">
+                    <?php
+                    $inicio_exibicao = $inicio + 1;
+                    $fim_exibicao = min($inicio + $imoveis_por_pagina, $Contagem_imoveis);
+                    ?>
+                    <p>Exibindo <strong><?= $inicio_exibicao ?>-<?= $fim_exibicao ?></strong> de
+                      <strong><?= $Contagem_imoveis ?></strong> propriedades</p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="pagination justify-content-lg-end">
+                    <?php if ($pagina > 1): ?>
+                      <li class="page-item">
                         <a class="page-link paginacao" data-page="<?= $pagina - 1 ?>">
-                            <i class="bi bi-chevron-left"></i>
+                          <i class="bi bi-chevron-left"></i>
                         </a>
-                    </li>
-                <?php endif; ?>
+                      </li>
+                    <?php endif; ?>
 
-                <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                    <li class="page-item <?= ($pagina == $i) ? 'active' : '' ?>">
+                    <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                      <li class="page-item <?= ($pagina == $i) ? 'active' : '' ?>">
                         <a class="page-link paginacao" data-page="<?= $i ?>"><?= $i ?></a>
-                    </li>
-                <?php endfor; ?>
+                      </li>
+                    <?php endfor; ?>
 
-                <?php if ($pagina < $total_paginas): ?>
-                    <li class="page-item">
+                    <?php if ($pagina < $total_paginas): ?>
+                      <li class="page-item">
                         <a class="page-link paginacao" data-page="<?= $pagina + 1 ?>">
-                            <i class="bi bi-chevron-right"></i>
+                          <i class="bi bi-chevron-right"></i>
                         </a>
-                    </li>
-                <?php endif; ?>
-            </ul>
+                      </li>
+                    <?php endif; ?>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+          </div>
         </div>
-    </div>
-</nav>
-          </nav>
-        </div>
-      </div>
-      
-    </section><!-- /Properties Section -->
+
+      </section><!-- /Properties Section -->
     </div>
 
   </main>
 
-    <?php include("footer.php"); ?>
+  <?php include("footer.php"); ?>
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
