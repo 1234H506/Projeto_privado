@@ -183,6 +183,7 @@ $acoes_concluidas = $visitas->completed_visits();
                       <div class="search-field">
                         <label for="search-rooms" class="field-label">Tipologia</label>
                         <select id="search-rooms" name="tipologia">
+                          <option value="">Selecione uma tipologia</option>
                           <option value="1">T0</option>
                           <option value="2">T1</option>
                           <option value="3">T2</option>
