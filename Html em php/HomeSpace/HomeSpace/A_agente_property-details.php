@@ -352,48 +352,8 @@ if (mysqli_num_rows($result_agente) > 0) {
                   </button>
                   <input type="hidden" name="idimovel" value="<?= $id_imovel; ?>">
                   </form>
-                  <button class="btn btn-outline w-100">
-                    <i class="bi bi-chat-dots"></i>
-                    Envio de mensagem
-                  </button>
                 </div>
               </div><!-- End Agent Card -->
-
-              <!-- Contact Form -->
-              <!-- <div class="contact-form-card mb-4" data-aos="fade-up" data-aos-delay="450">
-                <h4>Solicitar informações</h4>
-                <form action="forms/contact.php" method="post" class="php-email-form">
-                  <div class="row">
-                    <div class="col-12 mb-3">
-                      <input type="text" name="name" class="form-control" placeholder="Nome completo" required="">
-                    </div>
-                    <div class="col-12 mb-3">
-                      <input type="email" name="email" class="form-control" placeholder="Email" required="">
-                    </div>
-                    <div class="col-12 mb-3">
-                      <input type="tel" name="phone" class="form-control" placeholder="Número de telemóvel">
-                    </div>
-                    <div class="col-12 mb-3">
-                      <select name="subject" class="form-select" required="">
-                        <option value="">I'm interested in...</option>
-                        <option value="Scheduling a viewing">Scheduling a viewing</option>
-                        <option value="Getting more information">Getting more information</option>
-                        <option value="Submitting an application">Submitting an application</option>
-                      </select>
-                    </div>
-                    <div class="col-12 mb-3">
-                      <textarea name="message" class="form-control" rows="4"
-                        placeholder="Additional questions or preferred viewing times..."></textarea>
-                    </div>
-                  </div>
-
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your request has been sent successfully!</div>
-
-                  <button type="submit" class="btn btn-primary w-100">Send Request</button>
-                </form>
-              </div>End Contact Form -->
 
 
               <!-- Similar Properties -->
