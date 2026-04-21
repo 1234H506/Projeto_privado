@@ -10,7 +10,7 @@ $tipologia = $_POST["tipologia"];
 
 
 // Contagem de todos os imóveis 
-$sql_global_imoveis = "SELECT COUNT(ID_Imoveis) as Contagem_de_imoveis FROM imoveis WHERE Disponibilidade = 1 AND Morada = '$local' OR Tipodeimovel = '$tipo_propriedades' OR Preco = '$price' OR Tipologia = '$tipologia' ";
+$sql_global_imoveis = "SELECT COUNT(ID_Imoveis) as Contagem_de_imoveis FROM imoveis WHERE Disponibilidade = 1 AND (Morada = '$local' OR Tipodeimovel = '$tipo_propriedades' OR Preco = '$price' OR Tipologia = '$tipologia') ";
 $result_total_imoveis = mysqli_query($conn, $sql_global_imoveis);
 if (mysqli_num_rows($result_total_imoveis) > 0) {
     while ($row = mysqli_fetch_assoc($result_total_imoveis)) {
@@ -105,182 +105,195 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
             </a>
 
             <style>
-  .hide-caret::after {
-    display: none !important;
-  }
+                .hide-caret::after {
+                    display: none !important;
+                }
 
-  /* Hover bonito nos links (igual o sentimento do login) */
-  a[style*="border-radius: 10px"]:hover {
-    background-color: #f8f9fa !important;
-    padding-left: 20px !important;
-    color: #2d405f !important;
-  }
-</style>
-
-
-<nav id="navmenu" class="navmenu">
-  <ul>
-    <!--<li><a href="about.html">Sobre nós</a></li>-->
-    <li><a href="../properties.php">Propriedades</a></li>
-    <li><a href="../services.php">Serviços</a></li>
-    <li><a href="../A_agents.php">Agentes</a></li>
-    <li><a href="../contact.php">Contacto</a></li>
-
-    <?php if (isset($_SESSION["id"])) {
-
-      $id_utilizador = $_SESSION["id"];
-
-      $stmt = $conn->prepare("SELECT * FROM utilizador WHERE ID_Utilizador = ?");
-      $stmt->bind_param("i", $id_utilizador);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      $row = $result->fetch_assoc();
-
-    ?>
+                /* Hover bonito nos links (igual o sentimento do login) */
+                a[style*="border-radius: 10px"]:hover {
+                    background-color: #f8f9fa !important;
+                    padding-left: 20px !important;
+                    color: #2d405f !important;
+                }
+            </style>
 
 
-      <li class="dropdown">
-        <!-- TRIGGER (foto + nome/email) - mesmo estilo do "Login" -->
-        <a href="#"
-          class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
-          data-bs-toggle="dropdown"
-          data-bs-auto-close="outside">
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <!--<li><a href="about.html">Sobre nós</a></li>-->
+                    <li><a href="../properties.php">Propriedades</a></li>
+                    <li><a href="../services.php">Serviços</a></li>
+                    <li><a href="../A_agents.php">Agentes</a></li>
+                    <li><a href="../contact.php">Contacto</a></li>
 
-          <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
-            class="rounded-circle me-2"
-            style="width: 38px; height: 38px; object-fit: cover; border: 2px solid #2eca6a;">
+                    <?php if (isset($_SESSION["id"])) {
 
-          <div class="d-flex flex-column" style="line-height: 1.1;">
-            <span class="fw-bold" style="color: #2d405f; font-size: 0.95rem;">
-              <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
-            </span>
-            <span class="small text-muted"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></span>
-          </div>
+                        $id_utilizador = $_SESSION["id"];
 
-          <i class="bi bi-chevron-down ms-auto text-muted"></i>
-        </a>
+                        $stmt = $conn->prepare("SELECT * FROM utilizador WHERE ID_Utilizador = ?");
+                        $stmt->bind_param("i", $id_utilizador);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $row = $result->fetch_assoc();
 
-        <!-- DROPDOWN MENU - EXATAMENTE o mesmo do seu login -->
-        <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4"
-          style="min-width: 360px; border-radius: 15px;">
-
-          <div class="text-center mb-4">
-            <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
-              class="rounded-circle mb-3"
-              style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #2eca6a;">
-
-            <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
-              <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
-            </h4>
-            <p class="text-muted small"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></p>
-          </div>
-
-          <div class="dropdown-divider my-3"></div>
-
-          <!-- Links de ações (mesmo visual clean do login) -->
-          <a href="../perfil.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
-            <i class="bi bi-person me-3 text-success fs-5"></i>
-            <span class="fw-medium">Meu Dados</span>
-          </a>
-          <a href="../meus_imoveis.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
-            <i class="bi bi-house-door me-3 text-success fs-5"></i>
-            <span class="fw-medium">Minhas Ações</span>
-          </a>
-
-          <div class="dropdown-divider my-3"></div>
-
-          <!-- Botão Logout (estilo semelhante ao botão "Entrar") -->
-          <form action="/administracao1/startbootstrap-sb-admin-2-gh-pages/E_logout.php" method="POST">
-            <button type="submit"
-              class="btn w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2"
-              style="background-color: #dc3545; color: white; border-radius: 8px; border: none; transition: 0.3s;">
-              <i class="bi bi-box-arrow-right"></i>
-              Sair da Conta
-            </button>
-          </form>
-        </div>
-      </li>
+                        ?>
 
 
-    <?php } else {  ?>
+                        <li class="dropdown">
+                            <!-- TRIGGER (foto + nome/email) - mesmo estilo do "Login" -->
+                            <a href="#" class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside">
+
+                                <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
+                                    class="rounded-circle me-2"
+                                    style="width: 38px; height: 38px; object-fit: cover; border: 2px solid #2eca6a;">
+
+                                <div class="d-flex flex-column" style="line-height: 1.1;">
+                                    <span class="fw-bold" style="color: #2d405f; font-size: 0.95rem;">
+                                        <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
+                                    </span>
+                                    <span
+                                        class="small text-muted"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></span>
+                                </div>
+
+                                <i class="bi bi-chevron-down ms-auto text-muted"></i>
+                            </a>
+
+                            <!-- DROPDOWN MENU - EXATAMENTE o mesmo do seu login -->
+                            <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4"
+                                style="min-width: 360px; border-radius: 15px;">
+
+                                <div class="text-center mb-4">
+                                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
+                                        class="rounded-circle mb-3"
+                                        style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #2eca6a;">
+
+                                    <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
+                                        <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
+                                    </h4>
+                                    <p class="text-muted small"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?>
+                                    </p>
+                                </div>
+
+                                <div class="dropdown-divider my-3"></div>
+
+                                <!-- Links de ações (mesmo visual clean do login) -->
+                                <a href="../perfil.php"
+                                    class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark"
+                                    style="border-radius: 10px;">
+                                    <i class="bi bi-person me-3 text-success fs-5"></i>
+                                    <span class="fw-medium">Meu Dados</span>
+                                </a>
+                                <a href="../meus_imoveis.php"
+                                    class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark"
+                                    style="border-radius: 10px;">
+                                    <i class="bi bi-house-door me-3 text-success fs-5"></i>
+                                    <span class="fw-medium">Minhas Ações</span>
+                                </a>
+
+                                <div class="dropdown-divider my-3"></div>
+
+                                <!-- Botão Logout (estilo semelhante ao botão "Entrar") -->
+                                <form action="/administracao1/startbootstrap-sb-admin-2-gh-pages/E_logout.php"
+                                    method="POST">
+                                    <button type="submit"
+                                        class="btn w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2"
+                                        style="background-color: #dc3545; color: white; border-radius: 8px; border: none; transition: 0.3s;">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Sair da Conta
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
 
 
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
-          data-bs-toggle="dropdown" data-bs-auto-close="outside">
-          <span class="me-2">Login</span>
-          <i class="bi bi-person-circle fs-4"></i>
-        </a>
-
-        <style>
-          .hide-caret::after {
-            display: none !important;
-          }
-
-          /* Ajuste opcional para a cor do link de login não ficar azul padrão */
-          .dropdown-toggle {
-            color: #2d405f;
-          }
-        </style>
-
-        <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4" style="min-width: 360px; border-radius: 15px;">
-
-          <div class="text-center mb-4">
-            <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">Bem-vindo de volta</h4>
-            <p class="text-muted small">Acesse sua conta para gerenciar imóveis</p>
-          </div>
-
-          <form action="../consul_login.php" method="POST">
-            <div class="mb-3">
-              <label for="email" class="form-label small fw-bold" style="color: #2d405f;">Email</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-success"></i></span>
-                <input type="email" class="form-control bg-light border-start-0" id="email" name="Email_Usuario"
-                  placeholder="nome@exemplo.com" required style="font-size: 0.9rem;">
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label small fw-bold" style="color: #2d405f;">Senha</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                  <i class="bi bi-lock text-success"></i>
-                </span>
-
-                <input type="password" class="form-control bg-light border-start-0 border-end-0" id="form3Example3cg"
-                  name="Senha_Usuario" placeholder="Sua senha" required>
-
-                <span class="input-group-text bg-light border-start-0" style="cursor: pointer;" onclick="mostrarSenha('form3Example3cg', 'btn-senha')">
-                  <i class="bi bi-eye" id="btn-senha"></i>
-                </span>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-success w-100 py-2 fw-bold"
-              style="background-color: #2eca6a; border-color: #2eca6a; border-radius: 8px; transition: 0.3s;">
-              <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
-            </button>
-          </form>
-
-          <div class="dropdown-divider my-4"></div>
-
-          <div class="text-center">
-            <p class="mb-1 small text-muted">Não tem uma conta?</p>
-            <a class="fw-bold text-success text-decoration-none d-inline-block" href="../cadastro.php">Criar conta agora</a>
-            <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
-            <a class="fw-bold text-success text-decoration-none d-inline-block" href="../redefinirSenha.php">Redefinir senha</a>
-          </div>
-        </div>
-      </li>
+                    <?php } else { ?>
 
 
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                <span class="me-2">Login</span>
+                                <i class="bi bi-person-circle fs-4"></i>
+                            </a>
 
-    <?php } ?>
+                            <style>
+                                .hide-caret::after {
+                                    display: none !important;
+                                }
 
-  </ul>
-  <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                                /* Ajuste opcional para a cor do link de login não ficar azul padrão */
+                                .dropdown-toggle {
+                                    color: #2d405f;
+                                }
+                            </style>
 
-</nav>
+                            <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4"
+                                style="min-width: 360px; border-radius: 15px;">
+
+                                <div class="text-center mb-4">
+                                    <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
+                                        Bem-vindo de volta</h4>
+                                    <p class="text-muted small">Acesse sua conta para gerenciar imóveis</p>
+                                </div>
+
+                                <form action="../consul_login.php" method="POST">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label small fw-bold"
+                                            style="color: #2d405f;">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i
+                                                    class="bi bi-envelope text-success"></i></span>
+                                            <input type="email" class="form-control bg-light border-start-0" id="email"
+                                                name="Email_Usuario" placeholder="nome@exemplo.com" required
+                                                style="font-size: 0.9rem;">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold" style="color: #2d405f;">Senha</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0">
+                                                <i class="bi bi-lock text-success"></i>
+                                            </span>
+
+                                            <input type="password" class="form-control bg-light border-start-0 border-end-0"
+                                                id="form3Example3cg" name="Senha_Usuario" placeholder="Sua senha" required>
+
+                                            <span class="input-group-text bg-light border-start-0" style="cursor: pointer;"
+                                                onclick="mostrarSenha('form3Example3cg', 'btn-senha')">
+                                                <i class="bi bi-eye" id="btn-senha"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold"
+                                        style="background-color: #2eca6a; border-color: #2eca6a; border-radius: 8px; transition: 0.3s;">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                                    </button>
+                                </form>
+
+                                <div class="dropdown-divider my-4"></div>
+
+                                <div class="text-center">
+                                    <p class="mb-1 small text-muted">Não tem uma conta?</p>
+                                    <a class="fw-bold text-success text-decoration-none d-inline-block"
+                                        href="../cadastro.php">Criar conta agora</a>
+                                    <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
+                                    <a class="fw-bold text-success text-decoration-none d-inline-block"
+                                        href="../redefinirSenha.php">Redefinir senha</a>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+                    <?php } ?>
+
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+            </nav>
 
         </div>
     </header>
@@ -410,8 +423,10 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                         <div class="row g-4">
 
                             <?php
-                            $sql = " SELECT COUNT(g.Fotos) as Fotos , a.Servicos , a.nome , a.NdeTelemovel ,  i.Freguesia , i.Morada, i.concelho , i.Distrito , i.Codigopostal , i.Areautil , i.Tipologia , i.ID_Imoveis , i.Tipodeimovel , i.Areautil , i.Preco , i.Imagens , i.Estado , a.Imagem FROM agentes a, galeria g, imoveis i WHERE i.Agentes_ID_Agentes = a.ID_Agentes AND i.ID_Imoveis = g.Imoveis_ID_Imoveis AND i.Disponibilidade = 1 AND i.Morada = '$local' OR i.Tipodeimovel = '$tipo_propriedades' OR i.Preco = '$price' OR i.Tipologia = '$tipologia' GROUP BY i.ID_Imoveis LIMIT $inicio, $imoveis_por_pagina;";
+                            $sql = " SELECT COUNT(g.Fotos) as Fotos , a.Servicos , a.nome , a.NdeTelemovel ,  i.Freguesia , i.Morada, i.concelho , i.Distrito , i.Codigopostal , i.Areautil , i.Tipologia , i.ID_Imoveis , i.Tipodeimovel , i.Areautil , i.Preco , i.Imagens , i.Estado , a.Imagem FROM agentes a, galeria g, imoveis i WHERE i.Agentes_ID_Agentes = a.ID_Agentes AND i.ID_Imoveis = g.Imoveis_ID_Imoveis AND i.Disponibilidade = 1 AND (i.Morada = '$local' OR i.Tipodeimovel = '$tipo_propriedades' OR i.Preco = '$price' OR i.Tipologia = '$tipologia') GROUP BY i.ID_Imoveis ";
                             $result = mysqli_query($conn, $sql);
+
+
 
                             if (mysqli_num_rows($result) > 0) {
                                 // output data of each row
@@ -458,7 +473,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                                                         <span class="status-badge sale">Para <?= $Servico; ?> </span>
                                                     </div>
                                                     <div class="property-actions">
-                                                        <button class="action-btn favorite-btn" data-toggle="tooltip"
+                                                        <!-- <button class="action-btn favorite-btn" data-toggle="tooltip"
                                                             title="Add to Favorites"
                                                             onclick="event.stopPropagation(); return false;">
                                                             <i class="bi bi-heart"></i>
@@ -467,7 +482,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                                                             title="Share Property"
                                                             onclick="event.stopPropagation(); return false;">
                                                             <i class="bi bi-share"></i>
-                                                        </button>
+                                                        </button> -->
                                                         <button class="action-btn gallery-btn" data-toggle="tooltip"
                                                             title="View Gallery">
                                                             <i class="bi bi-images"></i>
@@ -537,49 +552,6 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                             ?>
 
 
-                <div>
-
-                    <nav class="pagination-wrapper mt-5" data-aos="fade-up" data-aos-delay="350">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col-lg-6">
-                                <div class="pagination-info">
-                                    <?php
-                                    $inicio_exibicao = $inicio + 1;
-                                    $fim_exibicao = min($inicio + $imoveis_por_pagina, $Contagem_imoveis);
-                                    ?>
-                                    <p>Exibindo <strong><?= $inicio_exibicao ?>-<?= $fim_exibicao ?></strong> de
-                                        <strong><?= $Contagem_imoveis ?></strong> propriedades
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <ul class="pagination justify-content-lg-end">
-                                    <?php if ($pagina > 1): ?>
-                                        <li class="page-item">
-                                            <a class="page-link paginacao" data-page="<?= $pagina - 1 ?>">
-                                                <i class="bi bi-chevron-left"></i>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-
-                                    <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                                        <li class="page-item <?= ($pagina == $i) ? 'active' : '' ?>">
-                                            <a class="page-link paginacao" data-page="<?= $i ?>"><?= $i ?></a>
-                                        </li>
-                                    <?php endfor; ?>
-
-                                    <?php if ($pagina < $total_paginas): ?>
-                                        <li class="page-item">
-                                            <a class="page-link paginacao" data-page="<?= $pagina + 1 ?>">
-                                                <i class="bi bi-chevron-right"></i>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
             </div>
 
         </section><!-- /Properties Section -->
