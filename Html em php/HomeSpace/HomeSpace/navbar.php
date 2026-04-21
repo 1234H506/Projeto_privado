@@ -49,7 +49,13 @@
 
           <div class="d-flex flex-column" style="line-height: 1.1;">
             <span class="fw-bold" style="color: #2d405f; font-size: 0.95rem;">
-              <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
+            <?php
+echo mb_convert_case(
+    htmlspecialchars($_SESSION['nome'] ?? 'Usuário'),
+    MB_CASE_TITLE,
+    "UTF-8"
+);
+?>
             </span>
             <span class="small text-muted"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></span>
           </div>
@@ -67,7 +73,13 @@
               style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #2eca6a;">
 
             <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
-              <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
+            <?php
+echo mb_convert_case(
+    htmlspecialchars($_SESSION['nome'] ?? 'Usuário'),
+    MB_CASE_TITLE,
+    "UTF-8"
+);
+?>
             </h4>
             <p class="text-muted small"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></p>
           </div>
@@ -75,11 +87,11 @@
           <div class="dropdown-divider my-3"></div>
 
           <!-- Links de ações (mesmo visual clean do login) -->
-          <a href="perfil.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
+          <a href="user_profile.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
             <i class="bi bi-person me-3 text-success fs-5"></i>
             <span class="fw-medium">Meu Dados</span>
           </a>
-          <a href="meus_imoveis.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
+          <a href="minhas_acao.php" class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark" style="border-radius: 10px;">
             <i class="bi bi-house-door me-3 text-success fs-5"></i>
             <span class="fw-medium">Minhas Ações</span>
           </a>
