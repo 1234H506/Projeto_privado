@@ -4,19 +4,6 @@ include("verificacaoDeLogin.php");
 
 $id_casa = $_POST['id'];
 
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homespace";
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
 $sql = "SELECT * FROM `imoveis` WHERE ID_Imoveis= $id_casa";
 $result = mysqli_query($conn, $sql);
 
@@ -126,13 +113,13 @@ if ($result_agente && $result_agente->num_rows > 0) {
                         <form id="alterarImovel" class="row g-3" action="A_alterar_registro_consul.php" method="POST"
                             enctype="multipart/form-data">
 
-                            <input type="hidden" name="id" value="<?php echo $id_casa ?>">
+                            <input type="hidden" name="id" value="<?= $id_casa ?>">
 
                             <!-- Freguesia -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputFreguesia" class="form-label">Freguesia</label>
                                 <input type="text" class="form-control" id="inputFreguesia" name="inputFreguesia"
-                                    value="<?php echo $freguesia ?>" autocomplete="off" required>
+                                    value="<?= $freguesia ?>" autocomplete="off" required>
                             </div>
 
 
@@ -140,14 +127,14 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputMorada" class="form-label">Morada</label>
                                 <input type="text" class="form-control" id="inputMorada" name="inputMorada"
-                                    value="<?php echo $morada ?>" autocomplete="off" required>
+                                    value="<?= $morada ?>" autocomplete="off" required>
                             </div>
 
                             <!-- Concelho -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputConcelho" class="form-label">Concelho</label>
                                 <input type="text" class="form-control" id="inputConcelho" name="inputConcelho"
-                                    value="<?php echo $concelho ?>" autocomplete="off" required>
+                                    value="<?= $concelho ?>" autocomplete="off" required>
                             </div>
 
 
@@ -179,9 +166,9 @@ if ($result_agente && $result_agente->num_rows > 0) {
                                     // O strcasecmo faz a comparação do que vem do banco de dados se diferenciar maiúsculas e minúsculas
                                     foreach ($lista as $value) {
                                         ?>
-                                        <option value="<?php echo $value; ?>" <?php if (strcasecmp($value, $distrito) === 0)
+                                        <option value="<?= $value; ?>" <?php if (strcasecmp($value, $distrito) === 0)
                                                echo 'selected'; ?>>
-                                            <?php echo $value; ?>
+                                            <?= $value; ?>
                                         </option>
                                         <?php
                                     }
@@ -193,14 +180,14 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputCodigoPostal" class="form-label">Código Postal</label>
                                 <input type="text" class="form-control" id="inputCodigoPostal" name="inputCodigo"
-                                    value="<?php echo $codigo_postal ?>" autocomplete="nome" required>
+                                    value="<?= $codigo_postal ?>" autocomplete="nome" required>
                             </div>
 
                             <!-- Área útil -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputAreaUtil" class="form-label">Área útil (m²)</label>
                                 <input type="number" step="0.01" min="0" class="form-control" id="inputAreaUtil"
-                                    name="inputArea" value="<?php echo $area_util ?>" autocomplete="nome" required>
+                                    name="inputArea" value="<?= $area_util ?>" autocomplete="nome" required>
                             </div>
 
 
@@ -208,14 +195,14 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputTipologia" class="form-label">Tipologia</label>
                                 <select class="form-control" id="inputTipologia" name="inputTipologia"
-                                    value="<?php echo $tipologia ?>" required>
+                                    value="<?= $tipologia ?>" required>
                                     <?php
                                     $tiposDeTipologia = ["T0", "T1", "T2", "T3", "T4", "T5+"];
                                     foreach ($tiposDeTipologia as $value) {
                                         ?>
-                                        <option value="<?php echo $value; ?>" <?php if (strcasecmp($value, $tipologia) === 0)
+                                        <option value="<?= $value; ?>" <?php if (strcasecmp($value, $tipologia) === 0)
                                                echo 'selected'; ?>>
-                                            <?php echo $value; ?>
+                                            <?= $value; ?>
                                         </option>
                                         <?php
                                     }
@@ -227,28 +214,28 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputNrEntradas" class="form-label">Número de Entradas</label>
                                 <input type="number" class="form-control" id="inputNrEntradas" min="0"
-                                    name="inputEntradas" value="<?php echo $nr_entradas ?>" autocomplete="off" required>
+                                    name="inputEntradas" value="<?= $nr_entradas ?>" autocomplete="off" required>
                             </div>
 
                             <!-- Capacidade da garagem -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputGaragem" class="form-label">Capacidade Garagem</label>
                                 <input type="text" class="form-control" id="inputGaragem" name="inputGaragem"
-                                    value="<?php echo $capacidade_garagem ?>" autocomplete="nome" required>
+                                    value="<?= $capacidade_garagem ?>" autocomplete="nome" required>
                             </div>
 
                             <!-- Tipo de imóvel -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputTipoImovel" class="form-label">Tipo de Imóvel</label>
                                 <select class="form-control" id="inputTipoImovel" name="inputTipo"
-                                    value="<?php echo $tipo_imovel ?>" required>
+                                    value="<?= $tipo_imovel ?>" required>
                                     <?php
                                     $categoria = ["Casa", "Apartamento", "Vivenda", "Quinta"];
                                     foreach ($categoria as $value) {
                                         ?>
-                                        <option value="<?php echo $value ?>" <?php if (strcasecmp($value, $tipologia) === 0)
+                                        <option value="<?= $value ?>" <?php if (strcasecmp($value, $tipologia) === 0)
                                                echo 'selected'; ?>>
-                                            <?php echo $value; ?>
+                                            <?= $value; ?>
                                         </option>
                                         <?php
                                     }
@@ -261,14 +248,14 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputEstado" class="form-label">Estado</label>
                                 <select class="form-control" id="inputEstado" name="inputEstado"
-                                    value="<?php echo $estado ?>" required>
+                                    value="<?= $estado ?>" required>
                                     <?php
                                     $lista = ["Novo", "Bom estado", "Usado"];
                                     foreach ($lista as $value) {
                                         ?>
-                                        <option value="<?php echo $value ?>" <?php if (strcasecmp($value, $estado) === 0)
+                                        <option value="<?= $value ?>" <?php if (strcasecmp($value, $estado) === 0)
                                                echo 'selected'; ?>>
-                                            <?php echo $value; ?>
+                                            <?= $value; ?>
                                         </option>
                                         <?php
                                     }
@@ -280,14 +267,14 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputPreco" class="form-label">Preço (€)</label>
                                 <input type="number" step="0.01" min="0" class="form-control" id="inputPreco"
-                                    name="inputPreco" value="<?php echo $preco ?>" autocomplete="nome" required>
+                                    name="inputPreco" value="<?= $preco ?>" autocomplete="nome" required>
                             </div>
 
                             <!-- Data de registro -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputDataRegistro" class="form-label">Data de Registro</label>
                                 <input type="date" class="form-control" id="inputDataRegistro" name="inputData"
-                                    value="<?php echo $data_registro ?>" required>
+                                    value="<?= $data_registro ?>" required>
                             </div>
 
                             <!-- Agente responsável -->
@@ -334,15 +321,15 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-12 mt-3">
                                 <label for="inputComentarios" class="form-label">Comentários / Raridade</label>
                                 <input type="text" class="form-control" id="inputComentarios" name="inputComentarios"
-                                    value="<?php echo $comentarios_raridade ?>" autocomplete="off" required>
+                                    value="<?= $comentarios_raridade ?>" autocomplete="off" required>
                             </div>
 
                             <!-- Sótão -->
                             <div class="col-md-6 mt-3">
                                 <label for="inputSotao" class="form-label">Sótão</label>
                                 <select id="inputSotao" class="form-select" name="sotao">
-                                    <option value="0" <?php echo ($sotao == 0 ? "selected" : ""); ?>>Não</option>
-                                    <option value="1" <?php echo ($sotao == 1 ? "selected" : ""); ?>>Sim</option>
+                                    <option value="0" <?= ($sotao == 0 ? "selected" : ""); ?>>Não</option>
+                                    <option value="1" <?= ($sotao == 1 ? "selected" : ""); ?>>Sim</option>
                                 </select>
                             </div>
 
@@ -350,8 +337,8 @@ if ($result_agente && $result_agente->num_rows > 0) {
                             <div class="col-md-6 mt-3">
                                 <label for="inputElevador" class="form-label">Elevador</label>
                                 <select id="inputElevador" class="form-select" name="elevador">
-                                    <option value="0" <?php echo ($elevador == 0 ? "selected" : ""); ?>>Não</option>
-                                    <option value="1" <?php echo ($elevador == 1 ? "selected" : ""); ?>>Sim</option>
+                                    <option value="0" <?= ($elevador == 0 ? "selected" : ""); ?>>Não</option>
+                                    <option value="1" <?= ($elevador == 1 ? "selected" : ""); ?>>Sim</option>
                                 </select>
                             </div>
 

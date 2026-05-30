@@ -1,4 +1,5 @@
 <?php
+include("../Html em php/HomeSpace/HomeSpace/Funcoes_util.php");
 
 $servername = "localhost";
 $username = "root";
@@ -43,35 +44,35 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
         <div class='card shadow mb-4'>
 
             <div class='card-header py-3'>
-                <h6 class='m-0 font-weight-bold text-primary'><?php echo $nome; ?></h6>
+                <h6 class='m-0 font-weight-bold text-primary'><?= ucwords($nome); ?></h6>
             </div>
 
             <div class='card-body'>
                 <div class='text-center mb-3'>
                     <img class='img-fluid rounded-circle' style='width: 150px; height: 150px;'
-                        src='img/agents/<?php echo $imagens; ?>' alt='Foto do agente'>
+                        src='img/agents/<?= $imagens; ?>' alt='Foto do agente'>
                 </div>
 
                 <h6 class='text-primary mt-4'><strong>Número de telemóvel</strong></h6>
-                <p><?php echo $numero; ?></p>
+                <p><?= num_Formatado($numero); ?></p>
 
                 <h6 class='text-primary'><strong>Serviços</strong></h6>
-                <p><?php echo $servicos; ?></p>
+                <p><?= $servicos; ?></p>
 
                 <h6 class='text-primary'>
                     <p><strong>Email</strong>
                 </h6>
-                <p><?php echo $email; ?></p>
+                <p><?= $email; ?></p>
 
 
                 <div class='d-flex flex-wrap justify-content-between mt-4'>
 
                     <button type='button' class='btn btn-primary btn-sm mr-2 px-3' data-toggle='modal'
-                        data-target='#modalDesarquivarAgente<?php echo $id ?>'>
+                        data-target='#modalDesarquivarAgente<?= $id ?>'>
                         Desarquivar
                     </button>
 
-                    <div class='modal fade' id='modalDesarquivarAgente<?php echo $id ?>' tabindex='-1' role='dialog'>
+                    <div class='modal fade' id='modalDesarquivarAgente<?= $id ?>' tabindex='-1' role='dialog'>
                         <div class='modal-dialog modal-dialog-centered' role='document'>
                             <div class='modal-content'>
 
@@ -92,7 +93,7 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
                                     </button>
 
                                     <form action='B_desarquivar_agente_consul.php' method='post' class='d-inline'>
-                                        <input type='hidden' name='id' value='<?php echo $id ?>'>
+                                        <input type='hidden' name='id' value='<?= $id ?>'>
                                         <button type='submit' class='btn btn-success'>
                                             Sim
                                         </button>
@@ -107,12 +108,12 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
 
                     <!-- Button para abrir o modal  -->
                     <button type='button' class='btn btn-primary btn-sm mr-2 px-3' data-toggle='modal'
-                        data-target='#modalExcluirAgente<?php echo $id ?>'>
+                        data-target='#modalExcluirAgente<?= $id ?>'>
                         Excluir
                     </button>
 
                     <!-- Modal abre -->
-                    <div class='modal fade' id='modalExcluirAgente<?php echo $id ?>' tabindex='-1' role='dialog'>
+                    <div class='modal fade' id='modalExcluirAgente<?= $id ?>' tabindex='-1' role='dialog'>
                         <div class='modal-dialog modal-dialog-centered' role='document'>
                             <div class='modal-content'>
 
@@ -136,7 +137,7 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
 
                                     <form action='B_excluir_agente_arquiva_consul.php' method='post' class='d-inline'>
 
-                                        <input type='hidden' name='id' value='<?php echo $id ?>'>
+                                        <input type='hidden' name='id' value='<?= $id ?>'>
                                         <button type='submit' class='btn btn-danger'>
                                             Sim, remover
                                         </button>

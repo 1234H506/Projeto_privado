@@ -117,7 +117,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
     <!-- Page Title -->
     <div class="page-title light-background">
-      <div class="container d-lg-flex justify-content-between align-items-center">
+      <div class="container d-lg-flex justify-content-between align-items-center"> 
         <h1 class="mb-2 mb-lg-0">Propriedades - <?= mb_convert_case($acao, MB_CASE_TITLE, "UTF-8") ?></h1>
         <nav class="breadcrumbs">
           <ol>

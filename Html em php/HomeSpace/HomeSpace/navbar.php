@@ -176,8 +176,8 @@ echo mb_convert_case(
           <div class="text-center">
             <p class="mb-1 small text-muted">Não tem uma conta?</p>
             <a class="fw-bold text-success text-decoration-none d-inline-block" href="cadastro.php">Criar conta agora</a>
-            <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
-            <a class="fw-bold text-success text-decoration-none d-inline-block" href="redefinirSenha.php">Redefinir senha</a>
+            <!-- <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
+            <a class="fw-bold text-success text-decoration-none d-inline-block" href="redefinirSenha.php">Redefinir senha</a> -->
           </div>
         </div>
       </li>

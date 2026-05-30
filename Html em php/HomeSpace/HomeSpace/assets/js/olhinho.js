@@ -6,10 +6,10 @@ function mostrarSenha(inputId, iconId) {
     const btnSenha = document.getElementById(iconId);
     if (senha.type === 'password') {
         senha.type = 'text';
-        btnSenha.classList.replace('bi-eye', 'bi-eye-slash');
+        btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
     } else {
         senha.type = 'password';
-        btnSenha.classList.replace('bi-eye-slash', 'bi-eye');
+        btnSenha.classList.replace('bi-eye', 'bi-eye-slash');
     }
 }
 

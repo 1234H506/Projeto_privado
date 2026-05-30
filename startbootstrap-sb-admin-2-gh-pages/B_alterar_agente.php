@@ -3,7 +3,7 @@
 include("verificacaoDeLogin.php");
 
 $id_agentes = $_POST['id'];
-echo $id_agentes;
+
 
 
 $servername = "localhost";

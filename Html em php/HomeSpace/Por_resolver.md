@@ -1,1 +1,6 @@
-É preciso tentar o sistema de recuperação de senha 
+ - É preciso tentar o sistema de recuperação de senha 
+ - Falta o link no index.php para visualizar o imovel , dá um erro quando chega na próxima página 
+ - Dá um erro no forech do index.php
+ - Termina o index.php , olhe de baixo do primeiro imovel .
+ - Retirar o perfil do agente , agora ele só mostra os imoveis que o agente tem .
+ - O que era o perfil do agente será do usuário.

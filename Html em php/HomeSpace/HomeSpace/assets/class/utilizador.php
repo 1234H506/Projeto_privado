@@ -8,7 +8,8 @@ class utilizador {
         private string $email,
         private ?int $admin,
         private ?int $sexo,
-        private ?string $imagem  
+        private ?string $imagem,
+          
     ) {}
 
     public static function Validacao_De_Recuperacao_De_Senha(string $emailExistente,mysqli $conexao){

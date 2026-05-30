@@ -198,7 +198,7 @@ mysqli_close($conn);
 
 
                             <!-- Botão -->
-                            <div class="col-12 text-center mt-4">
+                            <div class="col-12 text-center mt-4 mb-5">
                                 <button type="button" class="btn btn-primary px-5" id="btnAlterar">Alterar
                                     registro</button>
                             </div>

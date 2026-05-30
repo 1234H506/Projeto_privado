@@ -1,4 +1,5 @@
 <?php
+include("../Html em php/HomeSpace/HomeSpace/Funcoes_util.php");
 
 $servername = "localhost";
 $username = "root";
@@ -44,7 +45,7 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
         <div class='card shadow mb-4'>
 
             <div class='card-header py-3'>
-                <h6 class='m-0 font-weight-bold text-primary'><?= $nome ;?></h6>
+                <h6 class='m-0 font-weight-bold text-primary'><?= ucwords($nome) ;?></h6>
             </div>
 
             <div class='card-body'>
@@ -54,7 +55,7 @@ function exibirCardAgente($nome, $numero, $servicos, $email, $id, $imagens)
                 </div>
 
                 <h6 class='text-primary mt-4'><strong>Número de telemóvel</strong></h6>
-                <p><?= $numero; ?></p>
+                <p><?= num_Formatado($numero); ?></p>
 
                 <h6 class='text-primary'><strong>Serviços</strong></h6>
                 <p><?= $servicos; ?></p>

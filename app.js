@@ -25,10 +25,11 @@ connection.connect(err => {
 
 // Criando o caminho para os dados
 app.get('/dados-grafico', (req, res) => {
-    const sql = `
+        const sql = `
         SELECT a.Servicos, COUNT(i.ID_Imoveis) AS total
-        FROM imoveis i, agentes a
-        WHERE i.Agentes_ID_Agentes = a.ID_Agentes
+        FROM imoveis i
+        JOIN agentes a ON i.Agentes_ID_Agentes = a.ID_Agentes
+        WHERE (a.Servicos = 'Arrendamento' OR a.Servicos = 'Vendas')
         GROUP BY a.Servicos
         ORDER BY a.Servicos ASC;
     `;

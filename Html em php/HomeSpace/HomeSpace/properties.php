@@ -202,21 +202,6 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                   <h5>Exibindo : <?= $Contagem_imoveis; ?> imóveis</h5>
                 </div>
               </div>
-              <div class="col-lg-6">
-                <div class="results-controls">
-                  <div class="d-flex gap-3 align-items-center justify-content-lg-end">
-                    <div class="sort-dropdown">
-                      <select class="form-select form-select-sm">
-                        <option>Preço : Menor para maior</option>
-                        <option>Preço : Menor para maior</option>
-                        <option>Preço : Maior para menor</option>
-                        <option>Por ordem de listagem : Recentes para antigos</option>
-                        <option>Por ordem de listagem : Recentes para antigos</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
