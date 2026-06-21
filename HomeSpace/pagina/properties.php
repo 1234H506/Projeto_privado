@@ -148,7 +148,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                         <select id="acao" class="form-select">
                           <option>Todas as ações</option>
                           <option value="Vendas">Compras de imóveis</option>
-                          <option value="Arrendamento">Aluguel de imóveis</option>
+                          <option value="Arrendamento">Arrendamento de imóveis</option>
                         </select>
                       </div>
                     </div>

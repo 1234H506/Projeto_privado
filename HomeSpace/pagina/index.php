@@ -24,14 +24,11 @@ $imoveisFiltrados = array_filter($imoveis, function ($item) use ($imovelPrincipa
 
 $imoveisFiltrados = array_values($imoveisFiltrados);
 
-
-
 /** @var mysqli $conn */
 
 // comentários
 $comentarios = new Comentarios(null, null, null);
 $resultado_comentarios = $comentarios->listar($conn);
-
 
 // exibir agentes
 $agentes = new Exibir_agentes("", "", "", "", "", "");
@@ -42,9 +39,7 @@ $all_agents = $agentes->active_agents($conn);
 $visitas = new visitas($conn);
 $acoes_concluidas = $visitas->completed_visits();
 
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -149,7 +144,7 @@ $acoes_concluidas = $visitas->completed_visits();
                     <p>Descubra milhares de listagens verificadas</p>
                   </div>
 
-                  <form action="../HomeSpace/forms/pesquisa_imovel.php" method="post" class="property-search-form">
+                  <form action="../forms/pesquisa_imovel.php" method="GET" class="property-search-form">
                     <div class="search-grid">
                       <div class="search-field">
                         <label for="search-location" class="field-label">Localização</label>
@@ -232,7 +227,7 @@ $acoes_concluidas = $visitas->completed_visits();
               <div class="hero-visual" data-aos="fade-left" data-aos-delay="400">
                 <div class="visual-container">
                   <div class="featured-property">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovelPrincipal['Imagens'] ?>" alt="Imóvel em destaque"
+                    <img src="<?=ADMIN_URL?>img/principal/<?= $imovelPrincipal['Imagens'] ?>" alt="Imóvel em destaque"
                       class="img-fluid">
                     <div class="property-info">
                       <div class="property-price"><?= "€" . " " . preco_formatado($imovelPrincipal['Preco'], $imovelPrincipal['Servicos']) ?></div>
@@ -245,10 +240,10 @@ $acoes_concluidas = $visitas->completed_visits();
 
                   <div class="overlay-images">
                     <div class="overlay-img overlay-1">
-                      <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/galeria/<?= $fotos[0]['Fotos']; ?>" alt="Imagem da galeria" class="img-fluid">
+                      <img src="<?=ADMIN_URL?>img/galeria/<?= $fotos[0]['Fotos']; ?>" alt="Imagem da galeria" class="img-fluid">
                     </div>
                     <div class="overlay-img overlay-2">
-                      <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/galeria/<?= $fotos[1]['Fotos']; ?>" alt="Imagem da galeria" class="Imagem da galeria">
+                      <img src="<?=ADMIN_URL?>img/galeria/<?= $fotos[1]['Fotos']; ?>" alt="Imagem da galeria" class="Imagem da galeria">
                     </div>
                   </div>
 
@@ -327,30 +322,16 @@ $acoes_concluidas = $visitas->completed_visits();
 
                   </div>
                 </div>
-                <!-- <div class="achievement-item">
-                  <div class="achievement-icon">
-                    <i class="bi bi-people"></i>
-                  </div> -->
-                  <!-- <div class="achievement-content">
-                    <h4><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="1"
-                        class="purecounter"></span>% Clientes Satisfeitos</h4>
-
-                  </div> -->
-                <!-- </div> -->
               </div>
 
-              <div class="action-section"><!--
-                <a href="about.html" class="btn-cta">
-                  <span>Discover Our Story</span>
-                  <i class="bi bi-arrow-right"></i>
-                </a>-->
+              <div class="action-section">
                 <div class="contact-info">
                   <div class="contact-icon">
                     <i class="bi bi-telephone"></i>
                   </div>
                   <div class="contact-details">
                     <span>Ligue-nos hoje</span>
-                    <strong>+1 (555) 123-4567</strong>
+                    <strong>912-555-019</strong>
                   </div>
                 </div>
               </div>
@@ -382,7 +363,7 @@ $acoes_concluidas = $visitas->completed_visits();
             <div class="featured-property-main" data-aos="zoom-in" data-aos-delay="200">
               <div class="property-hero">
                 <img
-                  src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovelPrincipal['Imagens'] ?>"
+                  src="<?=ADMIN_URL?>img/principal/<?= $imovelPrincipal['Imagens'] ?>"
                   alt="Imóvel mais recente" class="img-fluid">
                 <div class="property-overlay">
                   <div class="property-badge-main premium"><?= $imovelPrincipal['Servicos'] ?></div>
@@ -418,7 +399,7 @@ $acoes_concluidas = $visitas->completed_visits();
                 </div>
                 <p class="property-description"><?= $imovelPrincipal['Comentariosderaridade'] ?></p>
                 <div class="property-actions-main">
-                  <a href="A_agente_property-details.php?id=<?= $imovelPrincipal['ID_Imoveis'] ?>"
+                  <a href="../agentes/A_agente_property-details.php?id=<?= $imovelPrincipal['ID_Imoveis'] ?>"
                     class="btn-primary-custom">
                     Visualizar
                   </a>
@@ -434,7 +415,7 @@ $acoes_concluidas = $visitas->completed_visits();
               <?php foreach (array_slice($imoveisFiltrados, 0, 2) as $imovel): ?>
                 <div class="sidebar-property-card" data-aos="fade-left" data-aos-delay="300">
                   <div class="sidebar-property-image">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovel['Imagens'] ?>"
+                    <img src="<?=ADMIN_URL?>img/principal/<?= $imovel['Imagens'] ?>"
                       alt="Imóvel disponível" class="img-fluid">
                     <div class="sidebar-property-badge hot"><?= $imovel['Servicos'] ?></div>
                   </div>
@@ -450,7 +431,7 @@ $acoes_concluidas = $visitas->completed_visits();
                     </div>
                     <div class="sidebar-price-row">
                       <div class="sidebar-price"><?= "€" . " " . preco_formatado($imovel['Preco'], $imovel['Servicos']) ?></div>
-                      <a href="A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="sidebar-btn">
+                      <a href="../agentes/A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="sidebar-btn">
                         Visualizar
                       </a>
                     </div>
@@ -465,7 +446,7 @@ $acoes_concluidas = $visitas->completed_visits();
             <div class="col-xl-6" data-aos="fade-up" data-aos-delay="600">
               <div class="property-card-horizontal">
                 <div class="property-image-horizontal">
-                  <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imovel['Imagens'] ?>"
+                  <img src="<?=ADMIN_URL?>img/principal/<?= $imovel['Imagens'] ?>"
                     class="img-fluid">
                   <div class="property-badge-horizontal exclusive"><?= $imovel['Servicos'] ?></div>
                 </div>
@@ -483,7 +464,7 @@ $acoes_concluidas = $visitas->completed_visits();
                   <div class="property-footer-horizontal">
                     <div class="property-price-horizontal">  <?= "€" . " " .  preco_formatado($imovel['Preco'], $imovel['Servicos']) ?>
                     </div>
-                    <a href="A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="btn-view-horizontal">
+                    <a href="../agentes/A_agente_property-details.php?id=<?= $imovel['ID_Imoveis'] ?>" class="btn-view-horizontal">
                       Visualizar
                     </a>
                   </div>
@@ -531,7 +512,7 @@ $acoes_concluidas = $visitas->completed_visits();
                 </form>
               </div>
               <div class="service-visual">
-                <img src="assets/img/real-estate/property-interior-8.webp" class="img-fluid" alt="Property Rental"
+                <img src="../assets/img/real-estate/property-interior-8.webp" class="img-fluid" alt="Property Rental"
                   loading="lazy">
               </div>
             </div>
@@ -558,7 +539,7 @@ $acoes_concluidas = $visitas->completed_visits();
                 </form>
               </div>
               <div class="service-visual">
-                <img src="assets/img/real-estate/property-exterior-1.webp" class="img-fluid" alt="Property Valuation"
+                <img src="../assets/img/real-estate/property-exterior-1.webp" class="img-fluid" alt="Property Valuation"
                   loading="lazy">
               </div>
             </div>
@@ -567,8 +548,6 @@ $acoes_concluidas = $visitas->completed_visits();
         </div>
 
         <div class="row g-4 mt-4">
-
-
 
         </div>
 
@@ -595,7 +574,7 @@ $acoes_concluidas = $visitas->completed_visits();
               <div class="featured-agent">
                 <div class="agent-wrapper">
                   <div class="agent-photo">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/agents/<?= $row['Imagem'] ?>"
+                    <img src="<?=ADMIN_URL?>img/agents/<?= $row['Imagem'] ?>"
                       alt="Foto agentes" class="img-fluid">
                   </div>
                   <div class="agent-details">
@@ -606,9 +585,8 @@ $acoes_concluidas = $visitas->completed_visits();
                     </div>
                     <div class="expertise-tags">
                       <span class="tag"><?= $row["Servicos"] ?></span>
-                      <!-- <span class="tag">Exclusivas</span> -->
                     </div>
-                    <a href="agent-profile.php?id=<?= $row["ID_Agentes"] ?>" class="view-profile">Ver listagens</a>
+                    <a href="../agentes/agent-profile.php?id=<?= $row["ID_Agentes"] ?>" class="view-profile">Ver listagens</a>
                   </div>
                 </div>
               </div>
@@ -618,7 +596,7 @@ $acoes_concluidas = $visitas->completed_visits();
       </div>
 
       <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="500">
-        <a href="A_agents.php" class="discover-all-agents">
+        <a href="./A_agents.php" class="discover-all-agents">
           <span>Mais agentes</span>
           <i class="bi bi-arrow-right"></i>
         </a>
@@ -648,7 +626,7 @@ $acoes_concluidas = $visitas->completed_visits();
               <div class="testimonial-card">
                 <div class="testimonial-header">
                   <div class="testimonial-image">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= $row["Imagem"] ?>"
+                    <img src="<?=ADMIN_URL?>img/utilizador/<?= $row["Imagem"] ?>"
                       class="img-fluid" alt="Foto usuário">
                   </div>
                   <div class="testimonial-meta">

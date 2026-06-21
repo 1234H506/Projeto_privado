@@ -1,7 +1,8 @@
 <?php
 session_start();
-include("conexao.php");
-include("Funcoes_util.php");
+include("../config.php/base.php");
+include("../reutilizaveis/conexao.php");
+include("../reutilizaveis/Funcoes_util.php");
 
 $id_em_sessao = $_SESSION["id"];
 
@@ -18,8 +19,8 @@ $id_em_sessao = $_SESSION["id"];
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -29,13 +30,13 @@ $id_em_sessao = $_SESSION["id"];
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="../assets/css/main.css" rel="stylesheet">
 </head>
 
 <body class="property-details-page">
@@ -43,7 +44,7 @@ $id_em_sessao = $_SESSION["id"];
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.php" class="logo d-flex align-items-center">
+            <a href="../pagina/index.php" class="logo d-flex align-items-center">
                 <svg class="my-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="bgCarrier" stroke-width="0"></g>
                     <g id="tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -69,7 +70,7 @@ $id_em_sessao = $_SESSION["id"];
                 <h1 class="sitename">HomeSpace</h1>
             </a>
 
-            <?php include("navbar.php"); ?>
+            <?php include("../reutilizaveis/navbar.php"); ?>
 
         </div>
     </header>
@@ -112,10 +113,10 @@ $id_em_sessao = $_SESSION["id"];
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-0 property-card-custom" 
                  style="cursor: pointer; transition: transform 0.3s ease, shadow 0.3s ease; border-radius: 12px; overflow: hidden;"
-                 onclick="window.location.href='A_agente_property-details.php?id=<?= $ps_idimovel; ?>'">
+                 onclick="window.location.href='../agentes/A_agente_property-details.php?id=<?= $ps_idimovel; ?>'">
                 
                 <div class="position-relative">
-                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $ps_imagem ?>" 
+                    <img src="<?=ADMIN_URL?>img/principal/<?= $ps_imagem ?>" 
                          class="card-img-top" alt="Imóvel" 
                          style="height: 220px; object-fit: cover;">
                     <span class="badge bg-success position-absolute top-0 end-0 m-3 shadow-sm" style="font-weight: 500;">
@@ -159,7 +160,7 @@ $id_em_sessao = $_SESSION["id"];
 
     </main>
 
-    <?php include("footer.php"); ?>
+    <?php include("../reutilizaveis/footer.php"); ?>
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
@@ -169,14 +170,14 @@ $id_em_sessao = $_SESSION["id"];
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
+    <script src="../assets/vendor/aos/aos.js"></script>
+    <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
 
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

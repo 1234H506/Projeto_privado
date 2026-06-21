@@ -81,20 +81,18 @@ if (btnProcurar) {
 let paginaSelecionada = 1;
 let tipologiaSelecionada = "any";
 
-// ==================== REBIND DE EVENTOS (essencial após AJAX) ====================
+// ==================== REBIND DE EVENTOS ====================
 function rebindFilters() {
-    // Botões de tipologia (dentro do #resultado)
     const bedButtons = document.querySelectorAll("#resultado .bed-btn");
     bedButtons.forEach(button => {
         button.addEventListener("click", function () {
             tipologiaSelecionada = this.getAttribute("data-beds");
-            console.log("Tipologia escolhida:", tipologiaSelecionada);
             bedButtons.forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
         });
     });
 
-    // Mantém o botão ativo correto (o servidor já manda com a classe)
+    // Mantém o botão de tipologia ativo
     bedButtons.forEach(btn => {
         if (btn.getAttribute("data-beds") === tipologiaSelecionada) {
             btn.classList.add("active");
@@ -103,31 +101,33 @@ function rebindFilters() {
         }
     });
 
-    // Botão "Procurar"
-    const btnFiltragem = document.getElementById("btn_filtragem.php");
+    
+    const btnFiltragem = document.getElementById("Btn_de_filtragem");
     if (btnFiltragem) {
-        btnFiltragem.addEventListener("click", function () {
+        // Remove listener anterior para evitar duplicatas após AJAX
+        btnFiltragem.replaceWith(btnFiltragem.cloneNode(true));
+        const btnNovo = document.getElementById("Btn_de_filtragem");
+        btnNovo.addEventListener("click", function () {
             paginaSelecionada = 1;
             enviarFiltragem();
         });
     }
 }
 
-// ==================== PAGINAÇÃO (clique em qualquer número ou seta) ====================
+// ==================== PAGINAÇÃO ====================
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("paginacao")) {
-        e.preventDefault();                    // ← ESSENCIAL
+        e.preventDefault();
         paginaSelecionada = e.target.getAttribute("data-page");
-        console.log("Página clicada:", paginaSelecionada);
         enviarFiltragem();
     }
 });
 
 // ==================== AJAX ====================
 function enviarFiltragem() {
-    const localizacao = document.getElementById("localizacao").value;
-    const tipo = document.getElementById("tipo").value;
-    const acao = document.getElementById("acao").value;
+    const localizacao = document.getElementById("localizacao")?.value ?? '';
+    const tipo = document.getElementById("tipo")?.value ?? '';
+    const acao = document.getElementById("acao")?.value ?? '';
 
     const formData = new FormData();
     formData.append('localizacao', localizacao);
@@ -140,10 +140,13 @@ function enviarFiltragem() {
         method: 'POST',
         body: formData
     })
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+    })
     .then(dados => {
         document.getElementById("resultado").innerHTML = dados;
-        rebindFilters();          // ← RECRIA os eventos
+        rebindFilters();
     })
     .catch(err => console.error("Erro AJAX:", err));
 }

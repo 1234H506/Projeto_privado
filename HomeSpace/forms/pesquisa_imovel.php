@@ -1,12 +1,13 @@
 <?php
 session_start();
-include("../conexao.php");
-include("../Funcoes_util.php");
+include("../config.php/base.php");
+include("../reutilizaveis/conexao.php");
+include("../reutilizaveis/Funcoes_util.php");
 
-$local = $_POST["location"];
-$tipo_propriedades = $_POST["property_type"];
-$price = $_POST["price_range"];
-$tipologia = $_POST["tipologia"];
+$local = $_GET["location"];
+$tipo_propriedades = $_GET["property_type"];
+$price = $_GET["price_range"];
+$tipologia = $_GET["tipologia"];
 
 
 // Contagem de todos os imóveis 
@@ -28,8 +29,6 @@ $pagina = isset($_POST['page']) ? (int) $_POST['page'] : 1;
 $inicio = ($pagina - 1) * $imoveis_por_pagina;
 // Quantas página seráo necessários , faz um divisão para descobrir
 $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
-
-
 
 ?>
 <!DOCTYPE html>
@@ -104,196 +103,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                 <h1 class="sitename">HomeSpace</h1>
             </a>
 
-            <style>
-                .hide-caret::after {
-                    display: none !important;
-                }
-
-                /* Hover bonito nos links (igual o sentimento do login) */
-                a[style*="border-radius: 10px"]:hover {
-                    background-color: #f8f9fa !important;
-                    padding-left: 20px !important;
-                    color: #2d405f !important;
-                }
-            </style>
-
-
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <!--<li><a href="about.html">Sobre nós</a></li>-->
-                    <li><a href="../properties.php">Propriedades</a></li>
-                    <li><a href="../services.php">Serviços</a></li>
-                    <li><a href="../A_agents.php">Agentes</a></li>
-                    <li><a href="../contact.php">Contacto</a></li>
-
-                    <?php if (isset($_SESSION["id"])) {
-
-                        $id_utilizador = $_SESSION["id"];
-
-                        $stmt = $conn->prepare("SELECT * FROM utilizador WHERE ID_Utilizador = ?");
-                        $stmt->bind_param("i", $id_utilizador);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        $row = $result->fetch_assoc();
-
-                        ?>
-
-
-                        <li class="dropdown">
-                            <!-- TRIGGER (foto + nome/email) - mesmo estilo do "Login" -->
-                            <a href="#" class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
-                                data-bs-toggle="dropdown" data-bs-auto-close="outside">
-
-                                <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
-                                    class="rounded-circle me-2"
-                                    style="width: 38px; height: 38px; object-fit: cover; border: 2px solid #2eca6a;">
-
-                                <div class="d-flex flex-column" style="line-height: 1.1;">
-                                    <span class="fw-bold" style="color: #2d405f; font-size: 0.95rem;">
-                                        <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
-                                    </span>
-                                    <span
-                                        class="small text-muted"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></span>
-                                </div>
-
-                                <i class="bi bi-chevron-down ms-auto text-muted"></i>
-                            </a>
-
-                            <!-- DROPDOWN MENU - EXATAMENTE o mesmo do seu login -->
-                            <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4"
-                                style="min-width: 360px; border-radius: 15px;">
-
-                                <div class="text-center mb-4">
-                                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
-                                        class="rounded-circle mb-3"
-                                        style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #2eca6a;">
-
-                                    <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
-                                        <?php echo htmlspecialchars($_SESSION['nome'] ?? 'Usuário'); ?>
-                                    </h4>
-                                    <p class="text-muted small"><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?>
-                                    </p>
-                                </div>
-
-                                <div class="dropdown-divider my-3"></div>
-
-                                <!-- Links de ações (mesmo visual clean do login) -->
-                                <a href="../perfil.php"
-                                    class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark"
-                                    style="border-radius: 10px;">
-                                    <i class="bi bi-person me-3 text-success fs-5"></i>
-                                    <span class="fw-medium">Meu Dados</span>
-                                </a>
-                                <a href="../meus_imoveis.php"
-                                    class="d-flex align-items-center py-3 px-3 text-decoration-none text-dark"
-                                    style="border-radius: 10px;">
-                                    <i class="bi bi-house-door me-3 text-success fs-5"></i>
-                                    <span class="fw-medium">Minhas Ações</span>
-                                </a>
-
-                                <div class="dropdown-divider my-3"></div>
-
-                                <!-- Botão Logout (estilo semelhante ao botão "Entrar") -->
-                                <form action="/administracao1/startbootstrap-sb-admin-2-gh-pages/E_logout.php"
-                                    method="POST">
-                                    <button type="submit"
-                                        class="btn w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2"
-                                        style="background-color: #dc3545; color: white; border-radius: 8px; border: none; transition: 0.3s;">
-                                        <i class="bi bi-box-arrow-right"></i>
-                                        Sair da Conta
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-
-
-                    <?php } else { ?>
-
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle hide-caret d-flex align-items-center text-decoration-none"
-                                data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                <span class="me-2">Login</span>
-                                <i class="bi bi-person-circle fs-4"></i>
-                            </a>
-
-                            <style>
-                                .hide-caret::after {
-                                    display: none !important;
-                                }
-
-                                /* Ajuste opcional para a cor do link de login não ficar azul padrão */
-                                .dropdown-toggle {
-                                    color: #2d405f;
-                                }
-                            </style>
-
-                            <div class="dropdown-menu dropdown-menu-end shadow border-0 p-4"
-                                style="min-width: 360px; border-radius: 15px;">
-
-                                <div class="text-center mb-4">
-                                    <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
-                                        Bem-vindo de volta</h4>
-                                    <p class="text-muted small">Acesse sua conta para gerenciar imóveis</p>
-                                </div>
-
-                                <form action="../consul_login.php" method="POST">
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label small fw-bold"
-                                            style="color: #2d405f;">Email</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0"><i
-                                                    class="bi bi-envelope text-success"></i></span>
-                                            <input type="email" class="form-control bg-light border-start-0" id="email"
-                                                name="Email_Usuario" placeholder="nome@exemplo.com" required
-                                                style="font-size: 0.9rem;">
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold" style="color: #2d405f;">Senha</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0">
-                                                <i class="bi bi-lock text-success"></i>
-                                            </span>
-
-                                            <input type="password" class="form-control bg-light border-start-0 border-end-0"
-                                                id="form3Example3cg" name="Senha_Usuario" placeholder="Sua senha" required>
-
-                                            <span class="input-group-text bg-light border-start-0" style="cursor: pointer;"
-                                                onclick="mostrarSenha('form3Example3cg', 'btn-senha')">
-                                                <i class="bi bi-eye" id="btn-senha"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold"
-                                        style="background-color: #2eca6a; border-color: #2eca6a; border-radius: 8px; transition: 0.3s;">
-                                        <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
-                                    </button>
-                                </form>
-
-                                <div class="dropdown-divider my-4"></div>
-
-                                <div class="text-center">
-                                    <p class="mb-1 small text-muted">Não tem uma conta?</p>
-                                    <a class="fw-bold text-success text-decoration-none d-inline-block"
-                                        href="../cadastro.php">Criar conta agora</a>
-                                    <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
-                                    <a class="fw-bold text-success text-decoration-none d-inline-block"
-                                        href="../redefinirSenha.php">Redefinir senha</a>
-                                </div>
-                            </div>
-                        </li>
-
-
-
-                    <?php } ?>
-
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-
-            </nav>
+            <?php include("../reutilizaveis/navbar.php"); ?>
 
         </div>
     </header>
@@ -320,99 +130,13 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                <!-- <div class="search-bar mb-5" data-aos="fade-up" data-aos-delay="150">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-10">
-                            <div class="search-wrapper">
-                                <div class="row g-3">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="search-field">
-                                            <label>Localização</label>
-                                            <input type="text" class="form-control" placeholder="Digite a morada"
-                                                id="localizacao">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="search-field">
-                                            <label>Tipo de imóvel</label>
-                                            <select id="tipo" class="form-select">
-                                                <option>Todos os tipos</option>
-                                                <option value="Casa">Casas</option>
-                                                <option value="Apartamento">Apartamentos</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="search-field">
-                                            <label>Tipo de ações</label>
-                                            <select id="acao" class="form-select">
-                                                <option>Todas as ações</option>
-                                                <option value="Vendas">Compras de imóveis</option>
-                                                <option value="Arrendamento">Aluguel de imóveis</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6">
-                                        <div class="search-field">
-                                            <label>Preços</label>
-                                            <select id="preco" class="form-select">
-                                                <option>Qualquer preços</option>
-                                                <option>€0 - €500k</option>
-                                                <option>€500k - €1M</option>
-                                                <option>€1M+</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-6">
-                                        <div class="search-field">
-                                            <label>Tipologia</label>
-                                            <div class="bedroom-quick">
-                                                <button class="bed-btn" data-beds="any">T0</button>
-                                                <button class="bed-btn" data-beds="T1">T1</button>
-                                                <button class="bed-btn" data-beds="T2">T2</button>
-                                                <button class="bed-btn" data-beds="T3">T3</button>
-                                                <button class="bed-btn" data-beds="T4">T4</button>
-                                                <button class="bed-btn" data-beds="T5">T5+</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-12">
-                                        <div class="search-field">
-                                            <label>&nbsp;</label>
-                                            <button id="Btn_de_filtragem" class="btn btn-primary w-100 search-btn">
-                                                <i class="bi bi-search"></i> Procurar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
                 <div class="results-header mb-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="results-info">
-                                <!-- <h5>(números) propriedades encontradas</h5> -->
                                 <h5>Exibindo : <?= $Contagem_imoveis; ?> imóveis</h5>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-6">
-                            <div class="results-controls">
-                                <div class="d-flex gap-3 align-items-center justify-content-lg-end">
-                                    <div class="sort-dropdown">
-                                        <select class="form-select form-select-sm">
-                                            <option>Preço : Menor para maior</option>
-                                            <option>Preço : Menor para maior</option>
-                                            <option>Preço : Maior para menor</option>
-                                            <option>Por ordem de listagem : Recentes para antigos</option>
-                                            <option>Por ordem de listagem : Recentes para antigos</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
 
@@ -454,35 +178,22 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
 
 
                                     $Nr_formatado = num_Formatado($numero);
-
-
                                     $preco_atual = preco_formatado($preco, $Agente_servicos);
-
 
                                     ?>
 
 
                                     <div class="col-lg-4 col-md-6">
                                         <div class="property-item" style="cursor:pointer;"
-                                            onclick="window.location.href='../A_agente_property-details.php?id=<?= $id_imoveis; ?>'">
+                                            onclick="window.location.href='../agentes/A_agente_property-details.php?id=<?= $id_imoveis; ?>'">
                                             <a class="property-link">
                                                 <div class="property-image-wrapper">
-                                                    <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imagens ?>"
+                                                    <img src="<?=ADMIN_URL?>img/principal/<?= $imagens ?>"
                                                         alt="Luxury Villa" class="img-fluid">
                                                     <div class="property-status">
                                                         <span class="status-badge sale">Para <?= $Servico; ?> </span>
                                                     </div>
                                                     <div class="property-actions">
-                                                        <!-- <button class="action-btn favorite-btn" data-toggle="tooltip"
-                                                            title="Add to Favorites"
-                                                            onclick="event.stopPropagation(); return false;">
-                                                            <i class="bi bi-heart"></i>
-                                                        </button>
-                                                        <button class="action-btn share-btn" data-toggle="tooltip"
-                                                            title="Share Property"
-                                                            onclick="event.stopPropagation(); return false;">
-                                                            <i class="bi bi-share"></i>
-                                                        </button> -->
                                                         <button class="action-btn gallery-btn" data-toggle="tooltip"
                                                             title="View Gallery">
                                                             <i class="bi bi-images"></i>
@@ -520,7 +231,7 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                                                     class="property-agent-info d-flex align-items-center justify-content-between">
                                                     <a class="d-flex align-items-center ">
                                                         <div class="agent-avatar me-3">
-                                                            <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/agents/<?= $Imagem_agente; ?>"
+                                                            <img src="<?=ADMIN_URL?>img/agents/<?= $Imagem_agente; ?>"
                                                                 alt="Agent" class="rounded-circle" width="48" height="48">
                                                         </div>
                                                         <div class="agent-details">
@@ -535,14 +246,9 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                                                     </div>
                                                     <input type="hidden" value="<?= $id_imoveis; ?>" name="id_Imovel_Post">
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     </div><!-- End Property Item -->
-
-
-
                                 <?php } ?>
                             </div>
                         </div>
@@ -550,17 +256,12 @@ $total_paginas = ceil($Contagem_imoveis / $imoveis_por_pagina);
                     <?php
                             }
                             ?>
-
-
             </div>
-
         </section><!-- /Properties Section -->
         </div>
-
     </main>
 
-
-    <?php include("../footer.php"); ?>
+    <?php include("../reutilizaveis/footer.php"); ?>
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i

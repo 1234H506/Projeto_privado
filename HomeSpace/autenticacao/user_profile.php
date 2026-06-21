@@ -1,8 +1,9 @@
 <?php
 session_start();
-include("conexao.php");
-include("Funcoes_util.php");
-include("assets/class/visitas.php");
+include("../config.php/base.php");
+include("../reutilizaveis/conexao.php");
+include("../reutilizaveis/Funcoes_util.php");
+include("../assets/class/visitas.php");
 
 // se NÃO estiver autenticado, redireciona com parâmetro especial
 if (!isset($_SESSION["id"]) || empty($_SESSION["id"])) {
@@ -28,8 +29,8 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -39,13 +40,13 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: HomeSpace
@@ -61,7 +62,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.php" class="logo d-flex align-items-center">
+      <a href="../pagina/index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
         <svg class="my-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +88,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
         <h1 class="sitename">HomeSpace</h1>
       </a>
 
-      <?php include("navbar.php") ?>
+      <?php include("../reutilizaveis/navbar.php") ?>
     </div>
   </header>
 
@@ -99,7 +100,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
         <h1 class="mb-2 mb-lg-0">Perfil</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.php">Menu Principal</a></li>
+            <li><a href="../pagina/index.php">Menu Principal</a></li>
             <li class="current">Perfil</li>
           </ol>
         </nav>
@@ -115,7 +116,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
         <div class="row align-items-center mb-5">
           <div class="col-lg-4" data-aos="fade-right" data-aos-delay="150">
             <div class="agent-photo-wrapper">
-              <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/utilizador/<?= ($row['Imagem']) ?>"
+              <img src="<?=ADMIN_URL?>img/utilizador/<?= ($row['Imagem']) ?>"
                 alt="User Profile" class="img-fluid agent-photo">
             </div>
           </div>
@@ -140,8 +141,6 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
             </div>
           </div>
         </div>
-
-
 
         <!-- Agent Bio & Specialties -->
         <div class="row mb-5" data-aos="fade-up" data-aos-delay="150">
@@ -209,7 +208,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
 
                         <!-- Imagem com Overlay -->
                         <div style="height: 200px; overflow: hidden; position: relative; background: #f0f0f0;">
-                          <img src="/administracao1/startbootstrap-sb-admin-2-gh-pages/img/principal/<?= $imagem ?>"
+                          <img src="<?=ADMIN_URL?>img/principal/<?= $imagem ?>"
                             class="img-fluid w-100 h-100" style="object-fit: cover; transition: transform 0.3s ease;"
                             onmouseover="this.style.transform='scale(1.08)';" onmouseout="this.style.transform='scale(1)';">
                         </div>
@@ -275,8 +274,8 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
                             </div>
                             <div class='modal-footer'>
                                 <button type='button' class='btn btn-secondary' data-dismiss='modal'>Não</button>
-                                <form action='A_confirm_delete_visit.php' method='post' class='d-inline'>
-                                    <input type='hidden' name='id' value='<?php echo $id_visita  ?>'>
+                                <form action='../agendamentos/A_confirm_delete_visit.php' method='post' class='d-inline'>
+                                    <input type='hidden' name='id' value='<?= $id_visita  ?>'>
                                     <button type='submit' class='btn btn-danger'>Sim, remover</button>
                                 </form>
                             </div>
@@ -330,7 +329,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
                 function confirmarExcluir(id) {
                   if (confirm('Tem a certeza que deseja eliminar este imóvel? Esta ação não pode ser desfeita.')) {
                     // Redireciona para a página de exclusão com o ID do imóvel
-                    window.location.href = 'A_confirm_delete_visit.php?id=' + id;
+                    window.location.href = '../agendamentos/A_confirm_delete_visit.php?id=' + id;
                   }
                 }
               </script>
@@ -345,7 +344,7 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
 
   <footer id="footer" class="footer accent-background">
 
-    <?php include("footer.php") ?>
+    <?php include("../reutilizaveis/footer.php") ?>
 
   </footer>
 
@@ -357,14 +356,14 @@ $lista_visitas = $visitas->pending_visits($id_utilizador);
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="../assets/js/main.js"></script>
 
 </body>
 

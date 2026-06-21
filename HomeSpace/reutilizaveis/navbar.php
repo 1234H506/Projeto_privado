@@ -66,13 +66,12 @@
           style="min-width: 360px; border-radius: 15px;">
 
           <div class="text-center mb-4">
-            <img src="../../administracao/img/utilizador/<?= ($row['Imagem']) ?>"
+            <img src="<?=ADMIN_URL?>img/utilizador/<?= ($row['Imagem']) ?>"
               class="rounded-circle mb-3"
               style="width: 90px; height: 90px; object-fit: cover; border: 4px solid #2eca6a;">
 
             <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #2d405f;">
-            <?php
-echo mb_convert_case(
+            <?= mb_convert_case(
     htmlspecialchars($_SESSION['nome'] ?? 'Usuário'),
     MB_CASE_TITLE,
     "UTF-8"
@@ -97,7 +96,7 @@ echo mb_convert_case(
           <div class="dropdown-divider my-3"></div>
 
           <!-- Botão Logout (estilo semelhante ao botão "Entrar") -->
-          <form action="../../administracao/E_logout.php" method="POST">
+          <form action="<?=ADMIN_URL?>E_logout.php" method="POST">
             <button type="submit"
               class="btn w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2"
               style="background-color: #dc3545; color: white; border-radius: 8px; border: none; transition: 0.3s;">
@@ -174,8 +173,6 @@ echo mb_convert_case(
           <div class="text-center">
             <p class="mb-1 small text-muted">Não tem uma conta?</p>
             <a class="fw-bold text-success text-decoration-none d-inline-block" href="../autenticacao/">Criar conta agora</a>
-            <!-- <p class="mb-1 small text-muted">Esqueceu sua senha? Não se preocupe!</p>
-            <a class="fw-bold text-success text-decoration-none d-inline-block" href="redefinirSenha.php">Redefinir senha</a> -->
           </div>
         </div>
       </li>
