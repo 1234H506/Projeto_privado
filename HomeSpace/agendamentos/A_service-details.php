@@ -57,8 +57,8 @@ $data_minima = $amanha->format('Y-m-d');
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -68,13 +68,13 @@ $data_minima = $amanha->format('Y-m-d');
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
 </head>
 
 <body class="service-details-page">
@@ -82,7 +82,7 @@ $data_minima = $amanha->format('Y-m-d');
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.php" class="logo d-flex align-items-center">
+      <a href="../pagina/index.php" class="logo d-flex align-items-center">
         <svg class="my-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="bgCarrier" stroke-width="0"></g>
           <g id="tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -106,7 +106,7 @@ $data_minima = $amanha->format('Y-m-d');
         <h1 class="sitename">HomeSpace</h1>
       </a>
 
-      <?php include("navbar.php"); ?>
+      <?php include("../reutilizaveis/navbar.php"); ?>
 
     </div>
   </header>
@@ -119,7 +119,7 @@ $data_minima = $amanha->format('Y-m-d');
         <h1 class="mb-2 mb-lg-0">Agendamento</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.php">Menu principal</a></li>
+            <li><a href="../pagina/index.php">Menu principal</a></li>
             <li class="current">Agendamento</li>
           </ol>
         </nav>
@@ -197,7 +197,7 @@ $data_minima = $amanha->format('Y-m-d');
   </main>
 
   <footer id="footer" class="footer accent-background">
-    <?php include("footer.php"); ?>
+    <?php include("../reutilizaveis/footer.php"); ?>
   </footer>
 
   <!-- Scroll Top -->
@@ -228,7 +228,7 @@ $data_minima = $amanha->format('Y-m-d');
           $('#inputHora').prop('disabled', true).html('<option value="">Carregando horários...</option>');
 
           $.ajax({
-            url: "forms/A_ajax_horarios_disponiveis.php",
+            url: "../forms/A_ajax_horarios_disponiveis.php",
             type: "POST",
             dataType: "json",
             data: {
@@ -279,7 +279,7 @@ $data_minima = $amanha->format('Y-m-d');
 
         // Enviar via AJAX
         $.ajax({
-          url: 'forms/A_processar_agendamento.php',
+          url: '../forms/A_processar_agendamento.php',
           type: 'POST',
           dataType: 'json',
           data: {

@@ -9,8 +9,8 @@ if (!isset($_SESSION["id"]) || empty($_SESSION["id"])) {
     echo json_encode(['sucesso' => false, 'erro' => 'Você precisa estar autenticado']);
     exit;
 }
-
-include("../conexao.php");
+include("../config.php/base.php");
+include("../reutilizaveis/conexao.php");
 
 date_default_timezone_set('Europe/Lisbon');
 

@@ -2,7 +2,8 @@
 // forms/A_ajax_horarios_disponiveis.php
 
 session_start();
-include("../conexao.php");
+include("../config.php/base.php");
+include("../reutilizaveis/conexao.php");
 
 date_default_timezone_set('Europe/Lisbon');
 
