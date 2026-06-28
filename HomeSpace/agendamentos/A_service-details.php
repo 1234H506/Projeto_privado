@@ -25,14 +25,21 @@ $comentario = "";
 $id_agente = "";
 
 if (mysqli_num_rows($result_imovel) > 0) {
-  while ($row = mysqli_fetch_assoc($result_imovel)) {
-    $Morada = $row["Morada"];
-    $Imagens = $row["Imagens"];
-    $comentario = $row["Comentariosderaridade"];
-    $id_agente = $row["Agentes_ID_Agentes"];
-  }
+    while ($row = mysqli_fetch_assoc($result_imovel)) {
+        $Morada  = $row["Morada"];
+        $Imagens = $row["Imagens"];
+        $comentario = $row["Comentariosderaridade"];
+        $id_agente  = $row["Agentes_ID_Agentes"];
+    }
 } else {
-  echo "Nenhum dado foi encontrado.";
+    echo "Nenhum dado foi encontrado.";
+    exit; // ← adicionar exit para não renderizar formulário quebrado
+}
+
+// ← NOVO: guardar contra agente inválido
+if (empty($id_agente)) {
+    echo "Erro: imóvel sem agente associado. Contacte o suporte.";
+    exit;
 }
 
 // ==================== BUSCAR COMENTÁRIOS ====================
@@ -208,7 +215,8 @@ $data_minima = $amanha->format('Y-m-d');
   <div id="preloader"></div>
 
   <!-- Vendor JS Files - jQuery PRIMEIRO! -->
-  <script src="../assets/vendor/jquery/jquery-3.6.0.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <script src="../assets/vendor/jquery/jquery-3.6.0.min.js"></script> -->
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/vendor/php-email-form/validate.js"></script>
   <script src="../assets/vendor/aos/aos.js"></script>

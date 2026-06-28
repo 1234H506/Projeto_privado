@@ -40,8 +40,10 @@ if (!$dataDeRegistro || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataDeRegistro)) {
     $erros[] = "Data inválida";
 } else {
     $hoje = new DateTime('now', new DateTimeZone('Europe/Lisbon'));
+    $hoje->setTime(0, 0, 0); // ← normaliza para meia-noite
     $data_selecionada = new DateTime($dataDeRegistro, new DateTimeZone('Europe/Lisbon'));
-    
+    $data_selecionada->setTime(0, 0, 0); // ← garante comparação só de datas
+
     if ($data_selecionada <= $hoje) {
         $erros[] = "Você só pode agendar para datas futuras (a partir de amanhã)";
     }
@@ -53,7 +55,7 @@ if (!$horaDeRegistro || !preg_match('/^\d{2}:\d{2}$/', $horaDeRegistro)) {
 } else {
     $partes_hora = explode(':', $horaDeRegistro);
     $hora_int = intval($partes_hora[0]);
-    
+
     $hora_valida = false;
     if (($hora_int >= 8 && $hora_int < 13) || ($hora_int >= 14 && $hora_int < 18)) {
         $hora_valida = true;
@@ -61,7 +63,7 @@ if (!$horaDeRegistro || !preg_match('/^\d{2}:\d{2}$/', $horaDeRegistro)) {
     if ($horaDeRegistro == '13:00' || $horaDeRegistro == '18:00') {
         $hora_valida = true;
     }
-    
+
     if (!$hora_valida) {
         $erros[] = "Horário fora do funcionamento (8h-13h e 14h-18h)";
     }
@@ -106,21 +108,22 @@ $stmt->close();
 
 // ==================== LÓGICA DO STATUS AUTOMÁTICO ====================
 
-function calcularTempo($tipologia) {
+function calcularTempo($tipologia)
+{
     $minutos = 0;
     switch (strtoupper($tipologia)) {
         case 'T0':
-        case 'T1': 
-            $minutos = 30; 
+        case 'T1':
+            $minutos = 30;
             break;
         case 'T2':
-        case 'T3': 
-            $minutos = 60; 
+        case 'T3':
+            $minutos = 60;
             break;
-        case 'T4': 
-            $minutos = 90; 
+        case 'T4':
+            $minutos = 90;
             break;
-        default:   
+        default:
             $minutos = 120;
     }
     return $minutos + 30;
@@ -190,7 +193,7 @@ $stmt->bind_param(
 
 if ($stmt->execute()) {
     $stmt->close();
-    
+
     // Sucesso!
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(200);

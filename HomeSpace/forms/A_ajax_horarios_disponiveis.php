@@ -26,7 +26,9 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data_visita)) {
 
 // Verificar se a data é pelo menos amanhã
 $hoje = new DateTime('now', new DateTimeZone('Europe/Lisbon'));
+$hoje->setTime(0, 0, 0); // ← normaliza para meia-noite
 $data_selecionada = new DateTime($data_visita, new DateTimeZone('Europe/Lisbon'));
+$data_selecionada->setTime(0, 0, 0); // ← garante comparação só de datas
 
 if ($data_selecionada <= $hoje) {
     http_response_code(400);
